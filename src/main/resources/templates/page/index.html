@@ -1,17 +1,19 @@
 <!doctype html>
-<html lang="en">
-<head>
+<html lang="en"
+xmlns:th="http://www.thymeleaf.org"
+>
+<head th:replace="common/header :: common-header">
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <link href="/output.css" rel="stylesheet" >
     <title>Fish Shop</title>
 </head>
-<body >
+<body>
+<div th:replace="common/header :: navbar"></div>
 <div>
     <h1 class="text-3xl font-bold underline bg-amber-600" style="background-image: linear-gradient(115deg, greenyellow, lightcoral)">
-        Hello world!!!
+        Hello world1!!!
     </h1>
-    <h1 class="bg-indigo-950 text-2xl">hi im testing</h1>
+    <div class="bg-blue-400 text-2xl">hi im testing</div>
 </div>
 
 </body>

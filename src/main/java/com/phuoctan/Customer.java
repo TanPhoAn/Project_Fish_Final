@@ -4,6 +4,7 @@ import jakarta.persistence.Entity;
 import jakarta.persistence.GeneratedValue;
 import jakarta.persistence.GenerationType;
 import jakarta.persistence.Id;
+import jakarta.validation.constraints.NotEmpty;
 
 import java.util.Objects;
 @Entity
@@ -12,13 +13,13 @@ public class Customer {
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     @Id
     private Integer id;
+    @NotEmpty(message = "your name cannot be empty")
     private String name;
     private String email;
     private String phone;
     private String address;
     private String password;
     private String username;
-    private String confirmPassword;
     public Customer() {
     }
 
@@ -38,14 +39,7 @@ public class Customer {
         this.username = username;
     }
 
-    public String getConfirmPassword() {
-        return confirmPassword;
-    }
-
-    public void setConfirmPassword(String confirmPassword) {
-        this.confirmPassword = confirmPassword;
-    }
-
+    public Customer( String name, String email, String phone, String address, String  username, String password) {}
     public Customer(Integer id, String name, String email, String phone, String address) {}
 
     @Override
