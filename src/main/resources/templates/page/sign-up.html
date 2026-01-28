@@ -21,9 +21,10 @@
                         Enter your details below
                     </h1>
 
+
                     <form th:action="@{/register/save}" th:object="${registerForm}"  method="post" class="space-y-4 md:space-y-6 flex flex-col">
                         <div>
-                            <label for="name" class="block mb-2 text-sm font-medium text-gray-900">Enter your name</label>
+                            <label for="name" class="block mb-2 text-sm font-medium text-gray-900">Enter your username</label>
                             <input id="name" type="text" th:field="*{name}" placeholder="Peter"
                                    class="w-full px-4 py-2 border rounded-lg focus:outline-none focus:ring-2 focus:ring-blue-500"/>
                         </div>
@@ -48,12 +49,7 @@
                                    class="w-full px-4 py-2 border rounded-lg focus:outline-none focus:ring-2 focus:ring-blue-500"/>
                         </div>
 
-                        <div>
-                            <label for="username" class="block mb-2 text-sm font-medium text-gray-900 ">Enter your username</label>
 
-                            <input id="username" type="text" th:field="*{username}" placeholder="Your username"
-                                   class="w-full px-4 py-2 border rounded-lg focus:outline-none focus:ring-2 focus:ring-blue-500"/>
-                        </div>
 
                         <div>
                             <label for="password" class="block mb-2 text-sm font-medium text-gray-900 ">Enter your password</label>

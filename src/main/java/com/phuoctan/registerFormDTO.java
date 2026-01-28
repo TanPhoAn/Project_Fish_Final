@@ -3,9 +3,9 @@ package com.phuoctan;
 
 import java.util.Objects;
 
-public class registerForm {
+public class registerFormDTO {
 
-    private Integer id;
+
     private String name;
     private String email;
     private String phone;
@@ -14,20 +14,20 @@ public class registerForm {
     private String username;
     private String confirmPassword;
 
-    public registerForm() {
+    public registerFormDTO() {
 
     }
 
     @Override
     public boolean equals(Object o) {
         if (o == null || getClass() != o.getClass()) return false;
-        registerForm that = (registerForm) o;
-        return Objects.equals(id, that.id) && Objects.equals(name, that.name) && Objects.equals(email, that.email) && Objects.equals(phone, that.phone) && Objects.equals(address, that.address) && Objects.equals(password, that.password) && Objects.equals(username, that.username) && Objects.equals(confirmPassword, that.confirmPassword);
+        registerFormDTO that = (registerFormDTO) o;
+        return  Objects.equals(name, that.name) && Objects.equals(email, that.email) && Objects.equals(phone, that.phone) && Objects.equals(address, that.address) && Objects.equals(password, that.password) && Objects.equals(username, that.username) && Objects.equals(confirmPassword, that.confirmPassword);
     }
 
     @Override
     public int hashCode() {
-        return Objects.hash(id, name, email, phone, address, password, username, confirmPassword);
+        return Objects.hash( name, email, phone, address, password, username, confirmPassword);
     }
 
     public String getAddress() {
@@ -38,13 +38,7 @@ public class registerForm {
         this.address = address;
     }
 
-    public Integer getId() {
-        return id;
-    }
 
-    public void setId(Integer id) {
-        this.id = id;
-    }
 
     public String getName() {
         return name;
@@ -94,8 +88,8 @@ public class registerForm {
         this.confirmPassword = confirmPassword;
     }
 
-    public registerForm(Integer id, String name, String email, String phone, String address, String password, String username, String confirmPassword) {
-        this.id = id;
+    public registerFormDTO(String name, String email, String phone, String address, String password, String username, String confirmPassword) {
+
         this.name = name;
         this.email = email;
         this.phone = phone;

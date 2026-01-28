@@ -1,11 +1,10 @@
 package com.phuoctan;
 
-import jakarta.persistence.Entity;
-import jakarta.persistence.GeneratedValue;
-import jakarta.persistence.GenerationType;
-import jakarta.persistence.Id;
+import jakarta.persistence.*;
 import jakarta.validation.constraints.NotEmpty;
+import org.hibernate.annotations.CreationTimestamp;
 
+import java.time.LocalDateTime;
 import java.util.Objects;
 @Entity
 public class Customer {
@@ -19,7 +18,41 @@ public class Customer {
     private String phone;
     private String address;
     private String password;
-    private String username;
+
+    private String role;
+    @Column(nullable = false)
+    private boolean status = true;
+    @CreationTimestamp
+    private LocalDateTime createdTime;
+
+
+    public LocalDateTime getCreatedTime() {
+        return createdTime;
+    }
+
+    public void setCreatedTime(LocalDateTime createdTime) {
+        this.createdTime = createdTime;
+    }
+
+        public boolean isStatus() {
+            return status;
+        }
+
+        public void setStatus(boolean status) {
+            this.status = status;
+        }
+
+
+
+
+    public String getRole() {
+        return role;
+    }
+
+    public void setRole(String role) {
+        this.role = role;
+    }
+
     public Customer() {
     }
 
@@ -31,16 +64,17 @@ public class Customer {
         this.password = password;
     }
 
-    public String getUsername() {
-        return username;
+
+
+    public Customer( String name, String email, String phone, String address, String password, String role) {
+        this.name = name;
+        this.email = email;
+        this.phone = phone;
+        this.address = address;
+        this.password = password;
+        this.role = role;
     }
 
-    public void setUsername(String username) {
-        this.username = username;
-    }
-
-    public Customer( String name, String email, String phone, String address, String  username, String password) {}
-    public Customer(Integer id, String name, String email, String phone, String address) {}
 
     @Override
     public boolean equals(Object o) {
