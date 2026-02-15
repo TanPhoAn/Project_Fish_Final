@@ -1,5 +1,7 @@
-package com.phuoctan;
+package com.phuoctan.service;
 
+import com.phuoctan.entity.Customer;
+import com.phuoctan.repository.CustomerRepository;
 import org.springframework.security.core.userdetails.User;
 import org.springframework.security.core.userdetails.UserDetails;
 import org.springframework.security.core.userdetails.UsernameNotFoundException;

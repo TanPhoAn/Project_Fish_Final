@@ -1,41 +1,10 @@
 <!DOCTYPE html>
 <html lang="en" xmlns:th="http://www.thymeleaf.org">
-<head>
-    <meta charset="UTF-8">
-    <title>AquaFish Shop</title>
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+<head th:replace="~{common/header :: head }"><title>home page</title></head>
+<header th:replace="~{common/header :: navbar}"></header>
 
-    <!-- Tailwind output -->
-    <link href="/css/output.css" rel="stylesheet">
-    <link rel="preconnect" href="https://fonts.googleapis.com">
-    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
-    <link href="https://fonts.googleapis.com/css2?family=Playfair+Display:wght@400;600;700&family=Poppins:wght@300;400;500;600&display=swap" rel="stylesheet">
-
-</head>
-
-<body class="bg-[#f9f7f3] text-gray-800">
-
-<!-- ================= HEADER ================= -->
-<header class="bg-white shadow-sm">
-    <div class="max-w-7xl mx-auto flex items-center justify-between px-6 py-4">
-        <h1 class="text-2xl font-bold text-[#6995B1]">AquaFish</h1>
-
-        <nav class="space-x-8 text-sm font-medium">
-            <a href="#" class="hover:text-[#6995B1]">Home</a>
-            <a href="#" class="hover:text-[#6995B1]">Fish</a>
-            <a href="#" class="hover:text-[#6995B1]">Accessories</a>
-            <a href="#" class="hover:text-[#6995B1]">Contact</a>
-        </nav>
-
-        <div class="space-x-4 text-sm">
-            <a href="#" class="hover:text-[#6995B1]">Login</a>
-            <a href="#" class="px-4 py-2 bg-[#6995B1] text-white rounded-full hover:opacity-90">
-                Cart
-            </a>
-        </div>
-    </div>
-</header>
-
+<!-- ================= PRODUCTS ================= -->
+<body class="bg-[var(--color-bg)]   text-gray-800">
 <!-- ================= HERO ================= -->
 <section class="max-w-7xl mx-auto px-6 py-16 grid grid-cols-2 gap-12 items-center">
     <div>
@@ -58,102 +27,98 @@
     <div>
         <img src="/images/output-onlinepngtools.png"
              alt="Fish Banner"
-             >
+        >
     </div>
 </section>
-
-<!-- ================= PRODUCTS ================= -->
-<section id="products" class="bg-white py-20">
+<section id="products" class="bg-white py-10" th:each="product : ${productsByCategory}">
     <div class="max-w-7xl mx-auto px-6">
-        <h3 class="text-3xl font-bold text-center mb-12">
-            Featured Products
+        <h3 class="text-3xl font-bold text-center mb-12" th:text="${product.getKey().label}" >
         </h3>
 
-        <div class="grid grid-cols-4 gap-8">
+        <div class="grid grid-cols-4 gap-8" th:if="${product.getValue().size()} <= 4 ">
 
-            <!-- CARD -->
-            <div class="bg-[#f9f7f3] rounded-2xl p-6 shadow-sm hover:shadow-md transition">
-                <img src="https://images.unsplash.com/photo-1526336024174-e58f5cdd8e13"
-                     class="rounded-xl mb-4 h-48 w-full object-cover">
+            <!-- PROD CARD -->
+                <div class="bg-[#f9f7f3] rounded-2xl p-6 shadow-sm hover:shadow-md
+            transition flex flex-col h-full"
 
-                <h4 class="font-semibold text-lg mb-2">
-                    Goldfish
-                </h4>
+                     th:each="prod : ${product.getValue()}">
 
-                <p class="text-sm text-gray-500 mb-4">
-                    Healthy ornamental goldfish
-                </p>
+                    <img th:src="@{'/images/fish/' + ${prod.productImage} + '.jpg'}"
+                         class="rounded-xl mb-4 h-48 w-full object-cover">
 
-                <div class="flex items-center justify-between">
-                    <span class="font-bold text-[#6995B1]">$12.00</span>
-                    <button class="px-4 py-2 text-sm bg-[#6995B1] text-white rounded-full">
-                        Add
-                    </button>
+                    <h4 class="font-semibold text-lg mb-2"
+                        th:text="${prod.productName}"></h4>
+
+                    <div class="flex-1">
+                        <p class="text-sm text-gray-500 mb-4 line-clamp-2"
+                           th:text="${prod.productDescription}"></p>
+                    </div>
+
+                    <div class="flex items-center justify-between mt-auto">
+        <span class="font-bold text-[#6995B1]"
+              th:text="${prod.productPrice}+ '$'"></span>
+
+                        <button class="px-4 py-2 text-sm bg-[#6995B1] text-white rounded-full hover:fill-blue-600">
+                            Add
+                        </button>
+                    </div>
                 </div>
+        </div>
+
+        <div  class="h-full flex flex-row justify-center" th:unless="${product.getValue().size()} <= 4">
+            <div class="grid grid-cols-4 gap-8" >
+                <div class="bg-[#f9f7f3] rounded-2xl p-6 shadow-sm hover:shadow-md
+            transition flex flex-col h-full"
+
+                     th:each="prod : ${product.getValue().subList(0, T(java.lang.Math).min(4, product.getValue().size()))}">
+                    <!--                    <img th:src="@{'/images/' + ${prod.getProductCategory()} + '/' + ${prod.productImage} + '.jpg'}"-->
+
+                    <img th:src="@{'/images/fish/' + ${prod.productImage} + '.jpg'}"
+                         class="rounded-xl mb-4 h-48 w-full object-cover">
+
+                    <h4 class="font-semibold text-lg mb-2"
+                        th:text="${prod.productName}"></h4>
+
+                    <div class="flex-1">
+                        <p class="text-sm text-gray-500 mb-4 line-clamp-2"
+                           th:text="${prod.productDescription} "></p>
+                    </div>
+
+                    <div class="flex items-center justify-between mt-auto">
+        <span class="font-bold text-[#6995B1]"
+              th:text="${prod.productPrice} + '$'"></span>
+
+                        <button class="px-4 py-2 text-sm bg-[#6995B1] text-white rounded-full">
+                            Add
+                        </button>
+                    </div>
+                </div>
+
+                <!-- PROD CARD -->
+
+                <!--            <div class="h-full w-fit align-middle" >-->
+                <!--                <a href="#">-->
+                <!--                    <button type="button" class="text-heading bg-gradient-to-r from-teal-200 to-lime-200 hover:bg-gradient-to-l hover:from-teal-200 hover:to-lime-200 focus:ring-4 focus:outline-none focus:ring-lime-200 dark:focus:ring-teal-700 font-medium rounded-base text-sm px-4 py-2.5 text-center leading-5">-->
+                <!--                        <svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke-width="1.5" stroke="currentColor" class="size-6">-->
+                <!--                            <path stroke-linecap="round" stroke-linejoin="round" d="M17.25 8.25 21 12m0 0-3.75 3.75M21 12H3" />-->
+                <!--                        </svg>-->
+                <!--                    </button>-->
+                <!--                </a>-->
+                <!--            </div>-->
+
             </div>
-
-            <!-- COPY thêm card -->
-            <div class="bg-[#f9f7f3] rounded-2xl p-6 shadow-sm hover:shadow-md transition">
-                <img src="https://images.unsplash.com/photo-1535591273668-578e31182c4f"
-                     class="rounded-xl mb-4 h-48 w-full object-cover">
-
-                <h4 class="font-semibold text-lg mb-2">
-                    Aquarium Tank
-                </h4>
-
-                <p class="text-sm text-gray-500 mb-4">
-                    Glass tank for freshwater fish
-                </p>
-
-                <div class="flex items-center justify-between">
-                    <span class="font-bold text-[#6995B1]">$89.00</span>
-                    <button class="px-4 py-2 text-sm bg-[#6995B1] text-white rounded-full">
-                        Add
-                    </button>
-                </div>
-            </div>
-
-            <div class="bg-[#f9f7f3] rounded-2xl p-6 shadow-sm hover:shadow-md transition">
-                <img src="https://images.unsplash.com/photo-1626197031507-c17099753214"
-                     class="rounded-xl mb-4 h-48 w-full object-cover">
-
-                <h4 class="font-semibold text-lg mb-2">
-                    Fish Food
-                </h4>
-
-                <p class="text-sm text-gray-500 mb-4">
-                    Nutrition food for aquarium fish
-                </p>
-
-                <div class="flex items-center justify-between">
-                    <span class="font-bold text-[#6995B1]">$6.50</span>
-                    <button class="px-4 py-2 text-sm bg-[#6995B1] text-white rounded-full">
-                        Add
-                    </button>
-                </div>
-            </div>
-
-            <div class="bg-[#f9f7f3] rounded-2xl p-6 shadow-sm hover:shadow-md transition">
-                <img src="https://images.unsplash.com/photo-1583524505974-6facd53f4590"
-                     class="rounded-xl mb-4 h-48 w-full object-cover">
-
-                <h4 class="font-semibold text-lg mb-2">
-                    Water Filter
-                </h4>
-
-                <p class="text-sm text-gray-500 mb-4">
-                    Keep water clean and healthy
-                </p>
-
-                <div class="flex items-center justify-between">
-                    <span class="font-bold text-[#6995B1]">$24.00</span>
-                    <button class="px-4 py-2 text-sm bg-[#6995B1] text-white rounded-full">
-                        Add
-                    </button>
-                </div>
+            <div id="product-page-button" class="flex justify-center py-44 px-2 ml-6">
+                <button type="button" class="rounded
+            hover:bg-gradient-to-l hover:from-teal-200 hover:to-lime-200 focus:ring-4
+            focus:outline-none outline-blue-500 outline-dashed outline-1
+            px-4 py-3 leading-5" >
+                    <span class="text-lg" th:utext="'More ' + ${product.getKey().label} + '<br>'"></span>
+                    <span  th:replace="~{common/icon :: arrow-right-icon}"></span>
+                </button>
             </div>
 
         </div>
+
     </div>
 </section>
 

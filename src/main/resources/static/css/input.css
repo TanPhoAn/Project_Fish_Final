@@ -1,8 +1,28 @@
 @import "tailwindcss";
-
-
 @tailwind utilities;
 
 *{
     box-sizing: border-box;
+}
+
+/* ===== WAGGY STYLE BASE ===== */
+@layer base {
+    :root {
+        --font-heading: "Chilanka", serif;
+        --font-body: "Montserrat", sans-serif;
+
+        --color-primary: #6995B1;
+        --color-bg: #f9f7f3;
+    }
+
+    body {
+        font-family: var(--font-body);
+        background-color: var(--color-bg);
+        color: #1f2937; /* gray-800 */
+    }
+
+    h1, h2, h3, h4 {
+        font-family: var(--font-heading);
+        letter-spacing: -0.02em;
+    }
 }

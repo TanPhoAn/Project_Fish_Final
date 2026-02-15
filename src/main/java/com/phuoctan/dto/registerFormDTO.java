@@ -1,4 +1,4 @@
-package com.phuoctan;
+package com.phuoctan.dto;
 
 
 import java.util.Objects;

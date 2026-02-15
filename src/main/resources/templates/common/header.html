@@ -1,24 +1,42 @@
-<!-- common/header.html -->
-<head th:fragment="common-header">
-    <meta charset="UTF-8" />
-    <title>AquaFish Store – Phụ kiện cho cá</title>
-    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+<!DOCTYPE html>
+<html lang="en"
+xmlns:th="http://www.thymeleaf.org">
+<head th:fragment="head">
+    <meta charset="UTF-8">
+    <title>Aquarina Shop</title>
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
 
+    <!-- Tailwind output -->
+    <link href="/css/output.css" rel="stylesheet">
     <link rel="preconnect" href="https://fonts.googleapis.com">
     <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
-    <link href="https://fonts.googleapis.com/css2?family=Montserrat:wght@300;400;500;600&display=swap" rel="stylesheet">
+    <link href="https://fonts.googleapis.com/css2?family=Playfair+Display:wght@400;600;700&family=Poppins:wght@300;400;500;600&display=swap" rel="stylesheet">
+    <link href="https://fonts.googleapis.com/css2?family=Chilanka&family=Montserrat:wght@300;400;500;600;700&display=swap" rel="stylesheet">
 
-    <link rel="stylesheet" href="/css/output.css">
 </head>
 
-<header class="header" th:fragment="navbar">
-    <div class="container header-inner">
-        <h1 class="logo">AquaFish</h1>
-        <nav class="nav">
-            <a href="#">Trang chủ</a>
-            <a href="#products">Sản phẩm</a>
-            <a href="#">Giỏ hàng</a>
-            <a href="#">Liên hệ</a>
+
+<!-- ================= HEADER ================= -->
+<header class="bg-white shadow-sm" th:fragment="navbar">
+    <div class="max-w-7xl mx-auto flex items-center justify-between px-6 py-4">
+        <h1 class="text-3xl font-semibold text-[var(--color-primary)]">Aquarina</h1>
+
+        <nav class="space-x-10 text-sm font-medium text-gray-600">
+            <a th:href="@{page/index.html}" class="hover:text-[#6995B1]">Home</a>
+            <a href="#" class="hover:text-[#6995B1]">Fish</a>
+            <a href="#" class="hover:text-[#6995B1]">Accessories</a>
+            <a href="#" class="hover:text-[#6995B1]">Contact</a>
         </nav>
+
+        <div class="space-x-4 text-sm">
+            <a th:href="@{common/sign-in}" class="hover:text-[var(--color-primary)]">Log In</a>
+            <a th:href="@{common/sign-up}" class="hover:text-[var(--color-primary)]">Sign Up</a>
+            <a href="#" class="px-5 py-2.5 bg-[var(--color-primary)] text-white rounded-full" >
+                Cart
+            </a>
+        </div>
     </div>
 </header>
+
+
+</html>

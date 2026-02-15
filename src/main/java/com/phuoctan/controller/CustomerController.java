@@ -1,5 +1,12 @@
-package com.phuoctan;
+package com.phuoctan.controller;
 
+import com.phuoctan.entity.Customer;
+import com.phuoctan.CustomerMapper;
+import com.phuoctan.entity.Product;
+import com.phuoctan.entity.ProductCategory;
+import com.phuoctan.service.CustomerService;
+import com.phuoctan.dto.registerFormDTO;
+import com.phuoctan.service.ProductService;
 import org.mapstruct.factory.Mappers;
 import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
 import org.springframework.stereotype.Controller;
@@ -8,17 +15,33 @@ import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.ModelAttribute;
 import org.springframework.web.bind.annotation.PostMapping;
 
+import java.util.LinkedHashMap;
+import java.util.List;
+import java.util.Map;
+
 @Controller
 public class CustomerController {
     private final CustomerService customerService;
     private final CustomerMapper customerMapper = Mappers.getMapper(CustomerMapper.class);
+    private final ProductService productService;
 
-    public CustomerController(CustomerService customerService) {
+    public CustomerController(CustomerService customerService, ProductService productService) {
         this.customerService = customerService;
+        this.productService = productService;
     }
 
     @GetMapping("/home")
-    public String home() {
+    public String home(Model model) {
+//        List<Product> fishList = productService.findByCategory(ProductCategory.FISH);
+//        model.addAttribute("fishList", fishList);
+        Map<ProductCategory, List<Product>> productsByCategory = new LinkedHashMap<>();
+        for(ProductCategory category :  ProductCategory.values() ){
+            productsByCategory.put(
+                    category,
+                    productService.findByCategory(category)
+            );
+        }
+        model.addAttribute("productsByCategory", productsByCategory);
         return "/page/index";
     }
 
@@ -49,7 +72,7 @@ public class CustomerController {
         customer.setRole("user");
         customerService.insertCustomer(customer);
 
-        return "/page/index";
+        return "redirect:/home";
     }
 
     @GetMapping("/login")

@@ -1,5 +1,9 @@
-package com.phuoctan;
+package com.phuoctan.service;
 
+import com.phuoctan.entity.Customer;
+import com.phuoctan.CustomerMapper;
+import com.phuoctan.dto.CustomerDTO;
+import com.phuoctan.repository.CustomerRepository;
 import org.mapstruct.factory.Mappers;
 import org.springframework.stereotype.Service;
 

@@ -1,11 +1,8 @@
 <!DOCTYPE html>
 <html lang="en"
       xmlns:th="http://www.thymeleaf.org">
-<!--<head th:replace="~{page/common/header :: common-header}">-->
-<head>
+<head th:replace="~{common/header :: head}">
     <title>Register</title>
-    <!--    <link rel="stylesheet" th:href="@{/css/output.css}">-->
-    <link rel="stylesheet" href="/css/output.css">
 </head>
 
 <body>
@@ -44,6 +41,9 @@
                         Log in
                     </button>
                 </form>
+            <div class="text-end">
+                <p class="text-sm font-medium text-gray-900">Don't have an account? <a class="text-red-500" href="/register">Register an account here</a> </p>
+            </div>
             </div>
         </div>
     </div>
