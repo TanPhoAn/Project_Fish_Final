@@ -3,6 +3,8 @@ package com.phuoctan.controller;
 import com.phuoctan.entity.Product;
 import com.phuoctan.entity.ProductCategory;
 import com.phuoctan.service.ProductService;
+import jakarta.servlet.http.HttpSession;
+import org.apache.tomcat.util.net.openssl.ciphers.Authentication;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.GetMapping;
@@ -24,4 +26,7 @@ public class ProductController {
         model.addAttribute("fishList", fishList);
         return "/page/index";
     }
+
+
+
 }

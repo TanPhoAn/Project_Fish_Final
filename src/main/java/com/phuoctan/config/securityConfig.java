@@ -32,7 +32,13 @@ public class securityConfig {
                         .defaultSuccessUrl("/home", true)
                         .failureUrl("/login?error")
                         .permitAll()
-                );
+                )
+                 .sessionManagement(session -> session
+                         .maximumSessions(1)
+                         //session B log -> session a out
+                         .maxSessionsPreventsLogin(false)
+                         .expiredUrl("/login?expired"))
+         ;
          return http.build();
     }
 
