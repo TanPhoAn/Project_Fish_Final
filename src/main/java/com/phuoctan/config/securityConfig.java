@@ -22,6 +22,7 @@ public class securityConfig {
                         .requestMatchers("/register", "/register/save").permitAll()
                         .requestMatchers("/css/**").permitAll()
                         .requestMatchers("/images/**").permitAll()
+                        .requestMatchers("/home").permitAll()
                         //for testing only
 //                        .requestMatchers("/home").permitAll()
                     .anyRequest().authenticated())

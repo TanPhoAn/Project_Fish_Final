@@ -44,7 +44,7 @@ public class CustomerController {
             );
         }
         model.addAttribute("productsByCategory", productsByCategory);
-        //take user info
+
 
         return "/page/index";
     }

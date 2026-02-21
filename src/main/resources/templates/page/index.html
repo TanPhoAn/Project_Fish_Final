@@ -9,8 +9,7 @@
 <section class="max-w-7xl mx-auto px-6 py-16 grid grid-cols-2 gap-12 items-center">
     <div>
         <h2 class="text-5xl font-bold leading-tight mb-6">
-            Everything for your <br>
-            <span th:text="${usernameSession}"></span>
+            Everything for your
             <span class="text-[#6995B1]">Aquarium</span>
         </h2>
 
@@ -43,9 +42,8 @@
             transition flex flex-col h-full"
 
                      th:each="prod : ${product.getValue()}">
-
-                    <img th:src="@{'/images/fish/' + ${prod.productImage} + '.jpg'}"
-                         class="rounded-xl mb-4 h-48 w-full object-cover">
+                    <img th:src="@{'/images/' + ${product.getKey().values()} + '/' + ${prod.productImage}}"
+                         class="rounded-xl mb-4 h-48 w-full object-cover" alt="">
 
                     <h4 class="font-semibold text-lg mb-2"
                         th:text="${prod.productName}"></h4>
@@ -56,8 +54,8 @@
                     </div>
 
                     <div class="flex items-center justify-between mt-auto">
-        <span class="font-bold text-[#6995B1]"
-              th:text="${prod.productPrice}+ '$'"></span>
+                    <span class="font-bold text-[#6995B1]"
+                    th:text="${prod.productPrice}+ '$'"></span>
 
                         <button class="px-4 py-2 text-sm bg-[#6995B1] text-white rounded-full hover:fill-blue-600">
                             Add
@@ -73,8 +71,7 @@
 
                      th:each="prod : ${product.getValue().subList(0, T(java.lang.Math).min(4, product.getValue().size()))}">
                     <!--                    <img th:src="@{'/images/' + ${prod.getProductCategory()} + '/' + ${prod.productImage} + '.jpg'}"-->
-
-                    <img th:src="@{'/images/fish/' + ${prod.productImage} + '.jpg'}"
+                    <img th:src="@{'/images/' + ${product.getKey()} + '/' + ${prod.productImage}}"
                          class="rounded-xl mb-4 h-48 w-full object-cover">
 
                     <h4 class="font-semibold text-lg mb-2"
