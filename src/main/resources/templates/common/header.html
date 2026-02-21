@@ -22,15 +22,24 @@ xmlns:th="http://www.thymeleaf.org">
         <h1 class="text-3xl font-semibold text-[var(--color-primary)]">Aquarina</h1>
 
         <nav class="space-x-10 text-sm font-medium text-gray-600">
-            <a th:href="@{page/index.html}" class="hover:text-[#6995B1]">Home</a>
+            <a th:href="@{/home}" class="hover:text-[#6995B1]">Home</a>
             <a href="#" class="hover:text-[#6995B1]">Fish</a>
             <a href="#" class="hover:text-[#6995B1]">Accessories</a>
             <a href="#" class="hover:text-[#6995B1]">Contact</a>
         </nav>
 
-        <div class="space-x-4 text-sm">
-            <a th:href="@{common/sign-in}" class="hover:text-[var(--color-primary)]">Log In</a>
-            <a th:href="@{common/sign-up}" class="hover:text-[var(--color-primary)]">Sign Up</a>
+        <div class=" flex items-center space-x-3 text-sm">
+            <a th:if="${currentUser == null}" th:href="@{/login}" class="hover:text-[var(--color-primary)]">Log In</a>
+            <a  th:if="${currentUser != null}"
+                  >Aloha
+                <span class="text-emerald-400" th:text="${currentUser.name}"></span>
+            </a>
+            <form th:if="${currentUser != null}" th:action="@{/logout}" method="post" >
+                <button class= "cursor-pointer hover:text-[var(--color-primary)]" type="submit">
+                    Log Out
+                </button>
+            </form>
+            <a th:if="${currentUser == null}" th:href="@{/register}" class="hover:text-[var(--color-primary)]">Sign Up</a>
             <a href="#" class="px-5 py-2.5 bg-[var(--color-primary)] text-white rounded-full" >
                 Cart
             </a>

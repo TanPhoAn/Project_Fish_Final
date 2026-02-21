@@ -33,6 +33,14 @@ public class securityConfig {
                         .failureUrl("/login?error")
                         .permitAll()
                 )
+                 .logout(logout-> logout
+                         .logoutUrl("/logout")
+                         .logoutSuccessUrl("/login?logout")
+                         .invalidateHttpSession(true)
+                         .clearAuthentication(true)
+                         .deleteCookies("JSESSIONID")
+
+                 )
                  .sessionManagement(session -> session
                          .maximumSessions(1)
                          //session B log -> session a out

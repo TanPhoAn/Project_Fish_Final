@@ -7,6 +7,9 @@ import com.phuoctan.entity.ProductCategory;
 import com.phuoctan.service.CustomerService;
 import com.phuoctan.dto.registerFormDTO;
 import com.phuoctan.service.ProductService;
+import jakarta.servlet.http.HttpServletRequest;
+import jakarta.servlet.http.HttpSession;
+import org.apache.tomcat.util.net.openssl.ciphers.Authentication;
 import org.mapstruct.factory.Mappers;
 import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
 import org.springframework.stereotype.Controller;
@@ -31,9 +34,8 @@ public class CustomerController {
     }
 
     @GetMapping("/home")
-    public String home(Model model) {
-//        List<Product> fishList = productService.findByCategory(ProductCategory.FISH);
-//        model.addAttribute("fishList", fishList);
+    public String home(Model model, Authentication authentication) {
+        //take fish list
         Map<ProductCategory, List<Product>> productsByCategory = new LinkedHashMap<>();
         for(ProductCategory category :  ProductCategory.values() ){
             productsByCategory.put(
@@ -42,8 +44,12 @@ public class CustomerController {
             );
         }
         model.addAttribute("productsByCategory", productsByCategory);
+        //take user info
+
         return "/page/index";
     }
+
+
 
     @GetMapping("/register")
     public String register(Model model) {

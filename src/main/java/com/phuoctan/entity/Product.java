@@ -101,17 +101,5 @@ public class Product {
         this.productStatus = productStatus;
     }
 
-//    public Product(long productPrice, String productName, String productDescription, ProductCategory productCategory) {
-//        this.productPrice = productPrice;
-//        this.productName = productName;
-//        this.productDescription = productDescription;
-//        this.productCategory = productCategory;
-//    }
-//
-//    public Product(String productName, String productDescription, long productPrice, ProductCategory productCategory) {
-//        this.productName = productName;
-//        this.productDescription = productDescription;
-//        this.productPrice = productPrice;
-//        this.productCategory = productCategory;
-//    }
+
 }
