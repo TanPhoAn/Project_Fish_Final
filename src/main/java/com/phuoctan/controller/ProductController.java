@@ -3,9 +3,13 @@ package com.phuoctan.controller;
 import com.phuoctan.entity.Product;
 import com.phuoctan.entity.ProductCategory;
 import com.phuoctan.service.ProductService;
+import org.springframework.data.domain.Page;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.GetMapping;
+import org.springframework.web.bind.annotation.PathVariable;
+import org.springframework.web.bind.annotation.RequestParam;
+import org.springframework.web.bind.annotation.ResponseBody;
 
 import java.util.List;
 
@@ -17,14 +21,41 @@ public class ProductController {
         this.productService = productService;
     }
 
-    @GetMapping("/products/fish")
-    public String fishList(Model model){
+    /**
+     * Template chung cho danh sách sản phẩm theo category.
+     * URL dạng: /products/fish, /products/plant, /products/fish-food, ...
+     */
+    @GetMapping("/products/{categorySlug}")
+    public String listByCategory(
+            @PathVariable("categorySlug") String categorySlug,
+            Model model,
+            @RequestParam(value="page", defaultValue = "0") int page,
+            @RequestParam(value = "size", defaultValue = "8") int size
+    ) {
+        // "fish-food" -> "FISH_FOOD"
+        String enumName = categorySlug.toUpperCase().replace("-", "_");
 
-        List<Product> fishList = productService.findByCategory(ProductCategory.FISH);
-        model.addAttribute("fishList", fishList);
-        return "/page/index";
+        ProductCategory category;
+        try {
+            category = ProductCategory.valueOf(enumName);
+        } catch (IllegalArgumentException ex) {
+            return "redirect:/home";
+        }
+        Page<Product> productPage = productService.findByCategoryPage(category, page, size);
+        //List<Product> products = productService.findByCategory(category );
+
+        model.addAttribute("category", category);
+        model.addAttribute("categorySlug", categorySlug);
+        model.addAttribute("productPage", productPage);
+
+        return "/page/product-lists";
     }
 
-
-
+//    @GetMapping("/fish-list")
+//    @ResponseBody
+//    public List<Product> fishList() {
+//        // convert slug -> ProductCategory, lấy list từ service
+//
+//        return productService.findByCategory(ProductCategory.FISH);
+//    }
 }

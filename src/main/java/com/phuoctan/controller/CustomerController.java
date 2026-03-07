@@ -64,7 +64,7 @@ public class CustomerController {
         if (registerFormDTO.getPassword() == null || registerFormDTO.getConfirmPassword() == null) {
             System.out.println("form is null");
         }
-//        no need to use this one anymore thanks to mapstruct :D
+
 //        Customer customer = new Customer();
 //
 //        customer.setName(registerFormDTO.getName());

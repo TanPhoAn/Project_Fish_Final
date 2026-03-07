@@ -18,7 +18,7 @@ public class Product {
     @Enumerated(EnumType.STRING)
     private ProductCategory productCategory;
     private String productImage;
-    @Column(nullable = false)
+    //@Column(nullable = false)
     private boolean productStatus = true;
 
     public Product() {
