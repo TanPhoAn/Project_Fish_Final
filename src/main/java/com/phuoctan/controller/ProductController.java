@@ -29,27 +29,36 @@ public class ProductController {
     public String listByCategory(
             @PathVariable("categorySlug") String categorySlug,
             Model model,
-            @RequestParam(value="page", defaultValue = "0") int page,
+            @RequestParam(value="page", defaultValue = "1") int page,
             @RequestParam(value = "size", defaultValue = "8") int size
     ) {
         // "fish-food" -> "FISH_FOOD"
         String enumName = categorySlug.toUpperCase().replace("-", "_");
-
+        int zeroBasedPage = Math.max(page - 1, 0);
         ProductCategory category;
         try {
             category = ProductCategory.valueOf(enumName);
         } catch (IllegalArgumentException ex) {
             return "redirect:/home";
         }
-        Page<Product> productPage = productService.findByCategoryPage(category, page, size);
+        Page<Product> productPage = productService.findByCategoryPage(category, zeroBasedPage, size);
         //List<Product> products = productService.findByCategory(category );
 
         model.addAttribute("category", category);
         model.addAttribute("categorySlug", categorySlug);
         model.addAttribute("productPage", productPage);
-
+        model.addAttribute("currentPage", page);
         return "/page/product-lists";
     }
+
+    @GetMapping("cart/popup")
+    @ResponseBody
+    public String cartPopup(Model model){
+
+
+        return "common/cart-popup :: cart-popup";
+    }
+
 
 //    @GetMapping("/fish-list")
 //    @ResponseBody

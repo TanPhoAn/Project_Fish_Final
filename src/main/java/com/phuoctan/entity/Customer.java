@@ -6,6 +6,7 @@ import jakarta.validation.constraints.NotEmpty;
 import org.hibernate.annotations.CreationTimestamp;
 
 import java.time.LocalDateTime;
+import java.util.List;
 import java.util.Objects;
 
 @Entity
@@ -26,6 +27,12 @@ public class Customer {
     private boolean status = true;
     @CreationTimestamp
     private LocalDateTime createdTime;
+
+    @OneToOne(mappedBy = "customer")
+    private Cart cart;
+
+    @OneToMany(mappedBy = "customer")
+    private List<Order> orders;
 
 
     public Customer() {

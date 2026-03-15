@@ -4,6 +4,7 @@ import jakarta.persistence.*;
 import org.hibernate.annotations.Type;
 
 
+import java.util.List;
 import java.util.Objects;
 
 
@@ -18,13 +19,33 @@ public class Product {
     @Enumerated(EnumType.STRING)
     private ProductCategory productCategory;
     private String productImage;
-    //@Column(nullable = false)
+
+
+
+    @Column(name="quantity")
+    private int quantity;
     private boolean productStatus = true;
+
+    @OneToMany(mappedBy = "product")
+    private List<Order_item> order_items;
+
+    @OneToMany(mappedBy = "product")
+    private List<Cart_item> cart_items;
 
     public Product() {
 
     }
+    public int getQuantity() {
+        return quantity;
+    }
 
+    public void setQuantity(int quantity) {
+        this.quantity = quantity;
+    }
+
+    public boolean isProductStatus() {
+        return productStatus;
+    }
     public Integer getId() {
         return id;
     }

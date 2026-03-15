@@ -23,15 +23,16 @@
         </a>
     </div>
 
-    <div th:if="${#lists.isEmpty(products)}" class="text-center py-16 text-gray-500">
+    <div th:if="${#lists.isEmpty(productPage)}" class="text-center py-16 text-gray-500">
         No products found in this category.
     </div>
 
-    <div th:unless="${#lists.isEmpty(products)}"
+    <div th:unless="${#lists.isEmpty(productPage)}"
          class="grid grid-cols-4 gap-8">
 
+        <!--card-->
         <div class="bg-[#f9f7f3] rounded-2xl p-6 shadow-sm hover:shadow-md transition flex flex-col h-full"
-             th:each="prod : ${products}">
+             th:each="prod : ${productPage}">
 
             <img th:src="@{'/images/' + ${category.name()} + '/' + ${prod.productImage}}"
                  class="rounded-xl mb-4 h-48 w-full object-cover"
@@ -57,6 +58,47 @@
                 </button>
             </div>
         </div>
+        <!--    Pagination    -->
+        <div class="mt-10 flex items-center justify-center gap-4 text-sm" th:if="${#lists.size(productPage.content) >= 8}">
+
+            <!-- Previous -->
+
+
+
+            <a th:if="${productPage.hasPrevious()}"
+               th:href="@{/products/{slug}(slug=${categorySlug},
+                               page=${currentPage - 1},
+                               size=${productPage.size})}"
+               class="px-4 py-2 rounded-full border border-gray-300 text-gray-700 hover:bg-gray-100">
+                ← Previous
+            </a>
+            <span th:unless="${productPage.hasPrevious()}"
+                  class="px-4 py-2 rounded-full border border-gray-200 text-gray-400 disabled:">
+                ← Previous
+            </span>
+
+            <!-- Page info -->
+            <span class="px-4 py-2 text-gray-600">
+                Page <span th:text="${currentPage}"></span>
+                of <span th:text="${productPage.totalPages}"></span>
+            </span>
+
+            <!-- Next -->
+            <a th:if="${productPage.hasNext()}"
+               th:href="@{/products/{slug}(slug=${categorySlug},
+                               page=${currentPage +1},
+                               size=${productPage.size})}"
+               class="px-4 py-2 rounded-full border border-gray-300 text-gray-700 hover:bg-gray-100">
+                Next →
+            </a>
+            <span th:unless="${productPage.hasNext()}"
+                  class="px-4 py-2 rounded-full border border-gray-200 text-gray-400 disabled:">
+                Next →
+            </span>
+
+        </div>
+
+
     </div>
 </section>
 

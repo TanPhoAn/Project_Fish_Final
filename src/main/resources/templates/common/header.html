@@ -12,7 +12,7 @@ xmlns:th="http://www.thymeleaf.org">
     <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
     <link href="https://fonts.googleapis.com/css2?family=Playfair+Display:wght@400;600;700&family=Poppins:wght@300;400;500;600&display=swap" rel="stylesheet">
     <link href="https://fonts.googleapis.com/css2?family=Chilanka&family=Montserrat:wght@300;400;500;600;700&display=swap" rel="stylesheet">
-
+    <script src="/cart-loading.js"></script>
 </head>
 
 
@@ -40,12 +40,22 @@ xmlns:th="http://www.thymeleaf.org">
                 </button>
             </form>
             <a th:if="${currentUser == null}" th:href="@{/register}" class="hover:text-[var(--color-primary)]">Sign Up</a>
-            <a href="#" class="px-5 py-2.5 bg-[var(--color-primary)] text-white rounded-full" >
-                Cart
-            </a>
+            <form th:action="@{/cart/popup}" method="get">
+                <button type="submit" id="cart-icon" class="px-5 py-2.5 bg-[var(--color-primary)] text-white rounded-full" >
+                    Cart
+                </button>
+            </form>
+
+
+        </div>
+    </div>
+    <div id="cart-modal" class="hidden fixed inset-0 bg-amber-600">
+        <div id="cart-modal-content ">
+
         </div>
     </div>
 </header>
+
 
 
 </html>
