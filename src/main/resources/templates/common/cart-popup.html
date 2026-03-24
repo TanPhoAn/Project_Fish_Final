@@ -1,0 +1,38 @@
+<div th:fragment="cartContent">
+
+    <div th:if="${#lists.isEmpty(itemList)}">
+        Your cart is empty
+    </div>
+    <div class="cart-detail" th:object="${itemList}">
+        <p class="font-bold font-stretch-90% text-center mb-4">YOUR CART</p>
+        <div th:each="item : ${itemList}"
+             class="flex justify-between py-2 border-b">
+
+            <div>
+                <p   class="font-medium"
+                     th:text="${item.product.productName}"></p>
+
+                <p class="text-sm text-gray-500">
+                    Qty:
+                    <span th:text="${item.quantity}"></span>
+                </p>
+            </div>
+
+            <div>
+                <span th:text="${item.price}"></span>
+            </div>
+        </div>
+        <div class="flex justify-between mt-4 font-bold">
+            <p>Total price:
+            <p th:text="${totalPrice}"></p>
+        </div>
+        <div class="float-right mt-6">
+            <a href="/payment" id="cart-icon" class="px-5 py-2.5 bg-[var(--color-primary)] text-white rounded-full">
+                Make payment
+            </a>
+        </div>
+
+    </div>
+
+
+</div>

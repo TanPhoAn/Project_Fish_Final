@@ -9,7 +9,9 @@ import java.util.Objects;
 public class Cart_item {
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
-    private int id;
+    private Integer id;
+
+
 
     @ManyToOne
     @JoinColumn(name="cart_id", referencedColumnName = "id")
@@ -20,15 +22,35 @@ public class Cart_item {
     @JoinColumn(name="product_id", referencedColumnName = "id")
     private Product product;
 
-    private int quantity;
+    private Integer quantity;
+    private Long price;
+    private Long totalPrice;
 
+    @Override
+    public boolean equals(Object o) {
+        if (o == null || getClass() != o.getClass()) return false;
+        Cart_item cartItem = (Cart_item) o;
+        return Objects.equals(id, cartItem.id) && Objects.equals(cart, cartItem.cart) && Objects.equals(product, cartItem.product) && Objects.equals(quantity, cartItem.quantity) && Objects.equals(price, cartItem.price) && Objects.equals(totalPrice, cartItem.totalPrice);
+    }
 
+    @Override
+    public int hashCode() {
+        return Objects.hash(id, cart, product, quantity, price, totalPrice);
+    }
 
-    public int getId() {
+    public Long getTotalPrice() {
+        return totalPrice;
+    }
+
+    public void setTotalPrice(Long totalPrice) {
+        this.totalPrice = totalPrice;
+    }
+
+    public Integer getId() {
         return id;
     }
 
-    public void setId(int id) {
+    public void setId(Integer id) {
         this.id = id;
     }
 
@@ -48,23 +70,19 @@ public class Cart_item {
         this.product = product;
     }
 
-    public int getQuantity() {
+    public Integer getQuantity() {
         return quantity;
     }
 
-    public void setQuantity(int quantity) {
+    public void setQuantity(Integer quantity) {
         this.quantity = quantity;
     }
-
-    @Override
-    public boolean equals(Object o) {
-        if (o == null || getClass() != o.getClass()) return false;
-        Cart_item cartItem = (Cart_item) o;
-        return id == cartItem.id && quantity == cartItem.quantity && Objects.equals(cart, cartItem.cart) && Objects.equals(product, cartItem.product);
+    public Long getPrice() {
+        return price;
     }
 
-    @Override
-    public int hashCode() {
-        return Objects.hash(id, cart, product, quantity);
+    public void setPrice(Long price) {
+        this.price = price;
     }
+
 }

@@ -5,7 +5,7 @@
 </head>
 
 <header th:replace="~{common/header :: navbar}"></header>
-
+<div th:replace="~{common/header :: cart}"></div>
 <body class="bg-[var(--color-bg)] text-gray-800">
 
 <section class="max-w-7xl mx-auto px-6 py-12">
@@ -52,10 +52,12 @@
                 <span class="font-bold text-[#6995B1]"
                       th:text="${prod.productPrice} + ' $'">
                 </span>
+                <form method="post" th:action="@{/cart/add}">
+                    <button type="button" th:data-id="${prod.getId()}" class="add-to-cart-btn px-4 py-2 text-sm bg-[#6995B1] text-white rounded-full hover:opacity-90">
+                        Add to cart
+                    </button>
+                </form>
 
-                <button class="px-4 py-2 text-sm bg-[#6995B1] text-white rounded-full hover:opacity-90">
-                    Add
-                </button>
             </div>
         </div>
         <!--    Pagination    -->
@@ -104,6 +106,6 @@
 
 <footer th:replace="~{common/footer :: footer}"></footer>
 
-
+<script src="/js/cart-loading.js"></script>
 </body>
 </html>

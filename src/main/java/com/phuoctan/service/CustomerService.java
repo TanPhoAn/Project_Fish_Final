@@ -18,14 +18,17 @@ public class CustomerService {
     public CustomerService(CustomerRepository customerRepository) {
         this.customerRepository = customerRepository;
     }
+
     public void insertCustomer(Customer customer) {
         customerRepository.save(customer);
     }
+
     public CustomerDTO getCustomerById(Integer id) {
         Customer customer = customerRepository.findById(id).orElseThrow(()
                 -> new RuntimeException("Customer not found !") );
         return customerMapper.customerTocustomerDTO(customer);
     }
+
     public List<Customer> getcustomersList() {
         return customerRepository.findAll();
     }

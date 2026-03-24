@@ -7,8 +7,6 @@ import com.phuoctan.entity.ProductCategory;
 import com.phuoctan.service.CustomerService;
 import com.phuoctan.dto.registerFormDTO;
 import com.phuoctan.service.ProductService;
-import jakarta.servlet.http.HttpServletRequest;
-import jakarta.servlet.http.HttpSession;
 import org.apache.tomcat.util.net.openssl.ciphers.Authentication;
 import org.mapstruct.factory.Mappers;
 import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;

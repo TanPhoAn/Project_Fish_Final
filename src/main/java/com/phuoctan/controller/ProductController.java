@@ -1,24 +1,25 @@
 package com.phuoctan.controller;
 
+import com.phuoctan.entity.Cart_item;
 import com.phuoctan.entity.Product;
 import com.phuoctan.entity.ProductCategory;
+import com.phuoctan.service.CartService;
 import com.phuoctan.service.ProductService;
 import org.springframework.data.domain.Page;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
-import org.springframework.web.bind.annotation.GetMapping;
-import org.springframework.web.bind.annotation.PathVariable;
-import org.springframework.web.bind.annotation.RequestParam;
-import org.springframework.web.bind.annotation.ResponseBody;
+import org.springframework.web.bind.annotation.*;
 
 import java.util.List;
 
 @Controller
 public class ProductController {
     private final ProductService productService;
+    private final CartService cartService;
 
-    public ProductController(ProductService productService) {
+    public ProductController(ProductService productService, CartService cartService) {
         this.productService = productService;
+        this.cartService = cartService;
     }
 
     /**
@@ -51,13 +52,13 @@ public class ProductController {
         return "/page/product-lists";
     }
 
-    @GetMapping("cart/popup")
-    @ResponseBody
-    public String cartPopup(Model model){
-
-
-        return "common/cart-popup :: cart-popup";
-    }
+    // cart
+//    @GetMapping("cart/popup")
+//    public String cartPopup(Model model){
+//
+//        List<Cart_item> cartItems =
+//        return "common/cart-popup :: ";
+//    }
 
 
 //    @GetMapping("/fish-list")
@@ -67,4 +68,6 @@ public class ProductController {
 //
 //        return productService.findByCategory(ProductCategory.FISH);
 //    }
+
+
 }

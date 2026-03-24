@@ -3,6 +3,8 @@
 xmlns:th="http://www.thymeleaf.org">
 <head th:fragment="head">
     <meta charset="UTF-8">
+    <meta name="_csrf" th:content="${_csrf.token}"/>
+    <meta name="_csrf_header" th:content="${_csrf.headerName}"/>
     <title>Aquarina Shop</title>
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
 
@@ -12,7 +14,7 @@ xmlns:th="http://www.thymeleaf.org">
     <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
     <link href="https://fonts.googleapis.com/css2?family=Playfair+Display:wght@400;600;700&family=Poppins:wght@300;400;500;600&display=swap" rel="stylesheet">
     <link href="https://fonts.googleapis.com/css2?family=Chilanka&family=Montserrat:wght@300;400;500;600;700&display=swap" rel="stylesheet">
-    <script src="/cart-loading.js"></script>
+
 </head>
 
 
@@ -40,22 +42,37 @@ xmlns:th="http://www.thymeleaf.org">
                 </button>
             </form>
             <a th:if="${currentUser == null}" th:href="@{/register}" class="hover:text-[var(--color-primary)]">Sign Up</a>
-            <form th:action="@{/cart/popup}" method="get">
-                <button type="submit" id="cart-icon" class="px-5 py-2.5 bg-[var(--color-primary)] text-white rounded-full" >
-                    Cart
-                </button>
-            </form>
+
+            <button  id="cart-icon" class="px-5 py-2.5 bg-[var(--color-primary)] text-white rounded-full">
+                Cart
+            </button>
 
 
-        </div>
-    </div>
-    <div id="cart-modal" class="hidden fixed inset-0 bg-amber-600">
-        <div id="cart-modal-content ">
 
         </div>
     </div>
+
 </header>
+                            <!-- cart -->
+<div th:fragment="cart" id="cart-modal"
+     class="hidden fixed inset-0 bg-black/40 flex items-center justify-center z-50">
 
+    <div class="bg-white w-[700px] rounded-xl shadow-xl p-6 relative">
+        <div class="close-cart-button py-2">
+            <button type="button" id="close-cart"
+                    class="absolute top-3 right-3 text-gray-500 hover:text-black">
+                ✕
+            </button>
+        </div>
+
+
+        <div id="cart-modal-content">
+            <!-- AJAX inject content -->
+        </div>
+
+    </div>
+
+</div>
 
 
 </html>

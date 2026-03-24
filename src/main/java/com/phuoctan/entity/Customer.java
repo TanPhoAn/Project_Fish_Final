@@ -32,7 +32,7 @@ public class Customer {
     private Cart cart;
 
     @OneToMany(mappedBy = "customer")
-    private List<Order> orders;
+    private List<Orders> orders;
 
 
     public Customer() {
