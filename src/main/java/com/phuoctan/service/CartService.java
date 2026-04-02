@@ -7,10 +7,8 @@ import com.phuoctan.entity.Customer;
 import com.phuoctan.entity.Product;
 import com.phuoctan.repository.CartItemRepository;
 import com.phuoctan.repository.CartRepository;
-import com.phuoctan.repository.CustomerRepository;
 import com.phuoctan.repository.ProductRepository;
 import org.springframework.stereotype.Service;
-import org.springframework.web.bind.annotation.GetMapping;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -20,13 +18,13 @@ import java.util.Optional;
 public class CartService {
     private final CartRepository cartRepository;
     private final CartItemRepository cartItemRepository;
-    private final CustomerRepository customerRepository;
+
     private final ProductRepository productRepository;
 
-    public CartService(CartRepository cartRepository, CartItemRepository cartItemRepository, CustomerRepository customerRepository, ProductRepository productRepository) {
+    public CartService(CartRepository cartRepository, CartItemRepository cartItemRepository,  ProductRepository productRepository) {
         this.cartRepository = cartRepository;
         this.cartItemRepository = cartItemRepository;
-        this.customerRepository = customerRepository;
+
         this.productRepository = productRepository;
     }
 
@@ -68,13 +66,20 @@ public class CartService {
         }
         return cartItemRepository.findByCart(cart);
     }
-
-
-
-    public void removeItem(int itemId){
-        cartRepository.deleteById(itemId);
+    public Cart  getCart(Customer customer) {
+        return cartRepository.findByCustomer(customer).orElseThrow(null);
+    }
+    public void deleteByCart(Cart cart){
+        cartItemRepository.deleteAll(cartItemRepository.findByCart(cart));
     }
 
+
+    public void removeCart(int cartId){
+        cartRepository.deleteById(cartId);
+    }
+    public void removeCartItem(int itemId){
+        cartItemRepository.deleteById(itemId);
+    }
     public void updateQuantity(int itemId, int quantity) {
         Cart_item cart_item = cartItemRepository.findById(itemId).orElseThrow(null);
         cart_item.setQuantity(quantity);

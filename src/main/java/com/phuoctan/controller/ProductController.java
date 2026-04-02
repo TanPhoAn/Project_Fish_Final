@@ -1,6 +1,5 @@
 package com.phuoctan.controller;
 
-import com.phuoctan.entity.Cart_item;
 import com.phuoctan.entity.Product;
 import com.phuoctan.entity.ProductCategory;
 import com.phuoctan.service.CartService;
@@ -10,16 +9,13 @@ import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.*;
 
-import java.util.List;
 
 @Controller
 public class ProductController {
     private final ProductService productService;
-    private final CartService cartService;
 
-    public ProductController(ProductService productService, CartService cartService) {
+    public ProductController(ProductService productService) {
         this.productService = productService;
-        this.cartService = cartService;
     }
 
     /**
@@ -51,23 +47,5 @@ public class ProductController {
         model.addAttribute("currentPage", page);
         return "/page/product-lists";
     }
-
-    // cart
-//    @GetMapping("cart/popup")
-//    public String cartPopup(Model model){
-//
-//        List<Cart_item> cartItems =
-//        return "common/cart-popup :: ";
-//    }
-
-
-//    @GetMapping("/fish-list")
-//    @ResponseBody
-//    public List<Product> fishList() {
-//        // convert slug -> ProductCategory, lấy list từ service
-//
-//        return productService.findByCategory(ProductCategory.FISH);
-//    }
-
 
 }

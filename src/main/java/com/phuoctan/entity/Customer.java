@@ -34,6 +34,33 @@ public class Customer {
     @OneToMany(mappedBy = "customer")
     private List<Orders> orders;
 
+    @Override
+    public boolean equals(Object o) {
+        if (o == null || getClass() != o.getClass()) return false;
+        Customer customer = (Customer) o;
+        return status == customer.status && Objects.equals(id, customer.id) && Objects.equals(name, customer.name) && Objects.equals(email, customer.email) && Objects.equals(phone, customer.phone) && Objects.equals(address, customer.address) && Objects.equals(password, customer.password) && Objects.equals(role, customer.role) && Objects.equals(createdTime, customer.createdTime) && Objects.equals(cart, customer.cart) && Objects.equals(orders, customer.orders);
+    }
+
+    @Override
+    public int hashCode() {
+        return Objects.hash(id, name, email, phone, address, password, role, status, createdTime, cart, orders);
+    }
+
+    public Cart getCart() {
+        return cart;
+    }
+
+    public void setCart(Cart cart) {
+        this.cart = cart;
+    }
+
+    public List<Orders> getOrders() {
+        return orders;
+    }
+
+    public void setOrders(List<Orders> orders) {
+        this.orders = orders;
+    }
 
     public Customer() {
     }
@@ -117,19 +144,6 @@ public class Customer {
         this.address = address;
         this.password = password;
         this.role = role;
-    }
-
-
-    @Override
-    public boolean equals(Object o) {
-        if (o == null || getClass() != o.getClass()) return false;
-        Customer customer = (Customer) o;
-        return Objects.equals(id, customer.id) && Objects.equals(name, customer.name) && Objects.equals(email, customer.email) && Objects.equals(phone, customer.phone) && Objects.equals(address, customer.address);
-    }
-
-    @Override
-    public int hashCode() {
-        return Objects.hash(id, name, email, phone, address);
     }
 
 

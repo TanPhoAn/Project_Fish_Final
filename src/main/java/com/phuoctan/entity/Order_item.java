@@ -11,16 +11,45 @@ public class Order_item {
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Integer id;
 
+    @ManyToOne
+    @JoinColumn(name="order_id", referencedColumnName = "id")
+    private Orders orders;
+
+    @ManyToOne
+    @JoinColumn(name="product_id", referencedColumnName = "id")
+    private Product product;
+
+    private Long price;
+    private Integer quantity;
+    private Long totalPrice;
+
+
+    public Orders getOrders() {
+        return orders;
+    }
+
+    public void setOrders(Orders orders) {
+        this.orders = orders;
+    }
+
+    public Long getTotalPrice() {
+        return totalPrice;
+    }
+
+    public void setTotalPrice(Long totalPrice) {
+        this.totalPrice = totalPrice;
+    }
+
     @Override
     public boolean equals(Object o) {
         if (o == null || getClass() != o.getClass()) return false;
         Order_item orderItem = (Order_item) o;
-        return quantity == orderItem.quantity && Objects.equals(id, orderItem.id) && Objects.equals(orders, orderItem.orders) && Objects.equals(product, orderItem.product) && Objects.equals(price, orderItem.price);
+        return Objects.equals(id, orderItem.id) && Objects.equals(orders, orderItem.orders) && Objects.equals(product, orderItem.product) && Objects.equals(price, orderItem.price) && Objects.equals(quantity, orderItem.quantity) && Objects.equals(totalPrice, orderItem.totalPrice);
     }
 
     @Override
     public int hashCode() {
-        return Objects.hash(id, orders, product, price, quantity);
+        return Objects.hash(id, orders, product, price, quantity, totalPrice);
     }
 
     public Orders getOrder() {
@@ -63,15 +92,6 @@ public class Order_item {
         this.quantity = quantity;
     }
 
-    @ManyToOne
-    @JoinColumn(name="order_id", referencedColumnName = "id")
-    private Orders orders;
 
-    @ManyToOne
-    @JoinColumn(name="product_id", referencedColumnName = "id")
-    private Product product;
-
-    private Long price;
-    private Integer quantity;
 
 }

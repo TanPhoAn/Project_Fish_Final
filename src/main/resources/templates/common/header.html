@@ -21,7 +21,7 @@ xmlns:th="http://www.thymeleaf.org">
 <!-- ================= HEADER ================= -->
 <header class="bg-white shadow-sm" th:fragment="navbar">
     <div class="max-w-7xl mx-auto flex items-center justify-between px-6 py-4">
-        <h1 class="text-3xl font-semibold text-[var(--color-primary)]">Aquarina</h1>
+        <a href="/home"><h1 class="text-3xl font-semibold text-[var(--color-primary)]">Aquarina</h1></a>
 
         <nav class="space-x-10 text-sm font-medium text-gray-600">
             <a th:href="@{/home}" class="hover:text-[#6995B1]">Home</a>
@@ -34,7 +34,7 @@ xmlns:th="http://www.thymeleaf.org">
             <a th:if="${currentUser == null}" th:href="@{/login}" class="hover:text-[var(--color-primary)]">Log In</a>
             <a  th:if="${currentUser != null}"
                   >Aloha
-                <span class="text-emerald-400" th:text="${currentUser.name}"></span>
+                <a th:href="@{/user/profile}" class="text-cyan-400" th:text="${currentUser.name}"></a>
             </a>
             <form th:if="${currentUser != null}" th:action="@{/logout}" method="post" >
                 <button class= "cursor-pointer hover:text-[var(--color-primary)]" type="submit">
@@ -43,7 +43,7 @@ xmlns:th="http://www.thymeleaf.org">
             </form>
             <a th:if="${currentUser == null}" th:href="@{/register}" class="hover:text-[var(--color-primary)]">Sign Up</a>
 
-            <button  id="cart-icon" class="px-5 py-2.5 bg-[var(--color-primary)] text-white rounded-full">
+            <button th:if="${currentUser != null}"  id="cart-icon" class="px-5 py-2.5 bg-[var(--color-primary)] text-white rounded-full hover:opacity-90">
                 Cart
             </button>
 
@@ -73,6 +73,22 @@ xmlns:th="http://www.thymeleaf.org">
     </div>
 
 </div>
+                            <!-- cart -->
 
+                    <!-- Toast alert message -->
 
+<div th:fragment="toast-message" id="toast-container" class="toast-container fixed top-5 right-5 z-30 hidden">
+    <div id="toast-success" class="flex items-center w-full max-w-sm p-4 text-body bg-white rounded-base shadow-xs border border-default" >
+        <div class="inline-flex items-center justify-center shrink-0 w-7 h-7 text-fg-success bg-success-soft rounded">
+            <svg class="w-5 h-5" aria-hidden="true" xmlns="http://www.w3.org/2000/svg" width="24" height="24" fill="none" viewBox="0 0 24 24"><path stroke="currentColor" stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M5 11.917 9.724 16.5 19 7.5"/></svg>
+            <span class="sr-only">Check icon</span>
+        </div>
+        <div class="ms-3 text-sm font-normal" id="add-success-toast"></div>
+        <button id="toast-close" type="button" class="ms-auto flex items-center justify-center text-body hover:text-heading bg-transparent box-border border border-transparent hover:bg-neutral-secondary-medium focus:ring-4 focus:ring-neutral-tertiary font-medium leading-5 rounded text-sm h-8 w-8 focus:outline-none" aria-label="Close">
+            <span class="sr-only">Close</span>
+            <svg class="w-5 h-5" aria-hidden="true" xmlns="http://www.w3.org/2000/svg" width="24" height="24" fill="none" viewBox="0 0 24 24"><path stroke="currentColor" stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M6 18 17.94 6M18 18 6.06 6"/></svg>
+        </button>
+    </div>
+</div>
+                    <!-- Toast alert message -->
 </html>

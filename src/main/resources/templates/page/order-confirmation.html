@@ -1,0 +1,82 @@
+<!DOCTYPE html>
+<html lang="en" xmlns:th="http://www.thymeleaf.org">
+<head th:replace="common/header :: head">
+    <title>Order Confirmation</title>
+</head>
+
+<body class="bg-gray-100">
+
+<!-- NAVBAR -->
+<div th:replace="common/header :: navbar"></div>
+<div th:replace="common/header :: cart"></div>
+<div class="max-w-3xl mx-auto mt-10 mb-8 p-8 bg-white shadow-xl rounded-xl">
+
+    <!-- SUCCESS ICON -->
+    <div class="text-center mb-6">
+        <svg class="w-20 h-20 text-green-500 mx-auto"  stroke="currentColor"
+             viewBox="0 0 24 24" stroke-width="2">
+            <path stroke-linecap="round" stroke-linejoin="round"
+                  d="M5 13l4 4L19 7" />
+        </svg>
+
+        <h1 class="text-3xl font-semibold mt-4 text-[var(--color-primary)]">
+            Order Placed Successfully!
+        </h1>
+
+        <p class="text-gray-600 mt-2">
+            Thank you for your purchase. Your order has been confirmed.
+        </p>
+    </div>
+
+    <!-- ORDER INFO -->
+    <div class="bg-gray-50 p-5 rounded-lg mb-8 border">
+        <p class="text-lg font-medium">
+            Order ID: <span class="text-[var(--color-primary)] font-bold"  th:text="${order.getId()}"></span>
+        </p>
+
+        <p class="mt-2">
+            Payment Method:
+            <span class="font-medium" th:text="${paymentMethod}"></span>
+        </p>
+
+        <p class="mt-2">
+            Order Date:
+            <span th:text="${#temporals.format(order.getOrder_date(), 'dd/MM/yyyy HH:mm')}"></span>
+        </p>
+    </div>
+
+    <!-- ORDER ITEMS -->
+    <h2 class="text-xl font-semibold mb-3 text-[var(--color-primary)]">Order Items</h2>
+
+    <div class="divide-y border rounded-lg bg-white">
+        <div th:each="item : ${orderItemList}" class="flex justify-between items-center p-4">
+            <div>
+                <p class="font-medium" th:text="${item.product.getProductName()}"></p>
+                <p class="text-gray-500 text-sm"
+                   th:text="'Qty: ' + ${item.getQuantity()}"></p>
+            </div>
+
+            <p class="font-semibold" th:text="${item.getPrice()} + ' $'"></p>
+        </div>
+    </div>
+
+    <!-- TOTAL PRICE -->
+    <div class="flex justify-between mt-6 text-xl font-semibold p-4 bg-gray-50 rounded-lg border">
+        <span>Total:</span>
+        <span th:text="${order.getTotal_price()} + ' $'"></span>
+    </div>
+
+    <!-- ACTION BUTTON -->
+    <div class="mt-8 text-center">
+        <a href="/home"
+           class="px-8 py-3 bg-[var(--color-primary)] text-white rounded-lg text-lg hover:bg-blue-400 transition">
+            Back to Home
+        </a>
+    </div>
+
+</div>
+
+<div th:replace="common/footer :: footer"></div>
+<script src="/js/cart-loading.js"></script>
+</body>
+</html>

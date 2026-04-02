@@ -1,7 +1,7 @@
 package com.phuoctan.controller;
 
 
-import com.phuoctan.entity.Cart;
+
 import com.phuoctan.entity.Cart_item;
 import com.phuoctan.entity.CustomerUserDetails;
 import com.phuoctan.service.CartService;
@@ -47,11 +47,12 @@ public class CartController {
     //remove item
     @PostMapping("/remove")
     @ResponseBody
-    public String removeItem(@RequestParam int itemId){
-        cartService.removeItem(itemId);
+    public void removeCartItem(@RequestParam int itemId){
+        cartService.removeCartItem(itemId);
 
-        return "item removed";
     }
+
+
 
     // UPDATE QUANTITY
     @PostMapping("/update")

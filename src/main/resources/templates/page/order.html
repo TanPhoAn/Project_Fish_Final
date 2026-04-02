@@ -1,10 +1,95 @@
 <!DOCTYPE html>
-<html lang="en">
-<head>
-    <meta charset="UTF-8">
+<html lang="en" xmlns:th="http://www.thymeleaf.org">
+<head th:replace="common/header :: head">
     <title>Order page</title>
 </head>
-<body>
+
+<body class="bg-gray-100 min-h-screen flex flex-col">
+
+<div th:replace="common/header :: navbar"></div>
+<section class="flex-grow">
+    <div class="max-w-3xl mx-auto bg-white shadow-md p-8 mt-14 rounded-xl">
+
+        <h1 class="text-2xl font-semibold mb-6">Order Summary</h1>
+
+        <!-- USER INFO -->
+        <div class="mb-6">
+            <h2 class="text-lg font-medium mb-2">Customer Information</h2>
+
+            <div class="space-y-1">
+                <p><strong>Name:</strong> <span th:text="${user.getName()}"></span></p>
+                <p><strong>Phone:</strong> <span th:text="${user.getPhone()}"></span></p>
+                <p><strong>Address:</strong> <span th:text="${user.getAddress()}"></span></p>
+            </div>
+        </div>
+
+        <!-- ITEM LIST -->
+        <div class="mb-6">
+            <h2 class="text-lg font-medium mb-2 text-center">Your Items</h2>
+
+            <div class="divide-y">
+                <div th:each="item : ${orderItem}" class="cart-list-item flex justify-between py-3">
+                    <div>
+                        <p class="font-medium" th:text="${item.product.getProductName()}"></p>
+                        <p class="text-sm text-gray-500"
+                           th:text="'Qty: ' + ${item.getQuantity()}"></p>
+                    </div>
+
+                    <div class="font-semibold"
+                         th:text="${item.product.getProductPrice()}"></div>
+                </div>
+            </div>
+
+            <!-- TOTAL PRICE -->
+            <div class="flex justify-between mt-4 text-lg font-semibold" >
+                <span>Total:</span>
+                <span th:text="${totalPrice}"></span>
+            </div>
+            <div class="empty-item-alert">
+                <p id="empty-item-alert-msg" class=" hidden text-red-500">Your cart is empty, please return home to get more stuff</p>
+            </div>
+        </div>
+
+        <!-- PAYMENT METHOD -->
+        <div class="mb-8">
+            <h2 class="flex flex-col text-lg font-medium mb-3">Payment Method</h2>
+
+            <div class="flex gap-4">
+
+                <button id="codBtn"
+                        class="payment-option px-4 py-2 border rounded-lg">
+                    Cash on Delivery (COD)
+                </button>
+
+                <button id="bankBtn"
+                        class="payment-option px-4 py-2 border rounded-lg">
+                    Bank Transfer
+                </button>
+
+            </div>
+            <div class=" hidden py-1" id="paymentMethod-warningText">
+                <p class="text-red-500 ">You need to choose payment method</p>
+            </div>
+
+        </div>
+
+        <!-- ORDER BUTTON -->
+        <form th:action="@{/order/processing}" method="post">
+
+            <input type="hidden" name="paymentMethod" id="submitPaymentMethod">
+
+            <button type="submit" id="order-submit-button"
+                    class=" px-6 py-3 bg-[var(--color-primary)] text-white rounded-lg hover:bg-blue-400">
+                Order Now
+            </button>
+        </form>
+
+    </div>
+</section>
+
+<footer th:replace="~{common/footer :: footer}"></footer>
+
+<script src="/js/payment.js" ></script>
 
 </body>
 </html>

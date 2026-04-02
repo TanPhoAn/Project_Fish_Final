@@ -1,14 +1,14 @@
 package com.phuoctan.controller;
 
-import com.phuoctan.entity.Customer;
+import com.phuoctan.entity.*;
 import com.phuoctan.CustomerMapper;
-import com.phuoctan.entity.Product;
-import com.phuoctan.entity.ProductCategory;
 import com.phuoctan.service.CustomerService;
 import com.phuoctan.dto.registerFormDTO;
+import com.phuoctan.service.OrderService;
 import com.phuoctan.service.ProductService;
 import org.apache.tomcat.util.net.openssl.ciphers.Authentication;
 import org.mapstruct.factory.Mappers;
+import org.springframework.security.core.annotation.AuthenticationPrincipal;
 import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
@@ -20,19 +20,23 @@ import java.util.LinkedHashMap;
 import java.util.List;
 import java.util.Map;
 
+
 @Controller
 public class CustomerController {
     private final CustomerService customerService;
     private final CustomerMapper customerMapper = Mappers.getMapper(CustomerMapper.class);
     private final ProductService productService;
+    private final  OrderService orderService;
 
-    public CustomerController(CustomerService customerService, ProductService productService) {
+    public CustomerController(CustomerService customerService, ProductService productService, OrderService orderService) {
         this.customerService = customerService;
         this.productService = productService;
+
+        this.orderService = orderService;
     }
 
     @GetMapping("/home")
-    public String home(Model model, Authentication authentication) {
+    public String home(Model model) {
         //take fish list
         Map<ProductCategory, List<Product>> productsByCategory = new LinkedHashMap<>();
         for(ProductCategory category :  ProductCategory.values() ){
@@ -63,14 +67,6 @@ public class CustomerController {
             System.out.println("form is null");
         }
 
-//        Customer customer = new Customer();
-//
-//        customer.setName(registerFormDTO.getName());
-//        customer.setAddress(registerFormDTO.getAddress());
-//        customer.setPhone(registerFormDTO.getPhone());
-//        customer.setEmail(registerFormDTO.getEmail());
-//        customer.setPassword(registerFormDTO.getPassword());
-//        customer.setUsername(registerFormDTO.getUsername());
         Customer customer = customerMapper.toEntity(registerFormDTO);
         customer.setPassword(new BCryptPasswordEncoder().encode(customer.getPassword()));
         customer.setRole("user");
@@ -83,5 +79,16 @@ public class CustomerController {
     public String login() {
 
         return "/page/sign-in";
+    }
+
+    @GetMapping("/user/profile")
+    public String users(Model model, @AuthenticationPrincipal CustomerUserDetails  customer) {
+
+        Customer customerDetail = customer.getCustomer();
+        model.addAttribute("customer", customerDetail);
+        List<Orders> orderList = orderService.getOrders(customerDetail);
+
+        model.addAttribute("orderList", orderList);
+        return "/page/user-detail";
     }
 }

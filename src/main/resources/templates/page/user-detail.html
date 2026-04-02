@@ -1,0 +1,95 @@
+<!DOCTYPE html>
+<html lang="en" xmlns:th="http://www.thymeleaf.org">
+<head th:replace="~{common/header :: head}">
+    <title>User Profile</title>
+</head>
+<header th:replace="~{common/header :: navbar}"></header>
+<div th:replace="~{common/header :: cart}"></div>
+<body class="bg-gray-100 min-h-screen flex flex-col">
+
+<!-- NAVBAR -->
+
+<section class="flex-grow">
+    <div class="max-w-5xl mx-auto mt-10 p-6 bg-white shadow rounded-xl">
+
+        <!-- USER INFO -->
+        <h1 class="text-2xl font-semibold mb-6 text-[var(--color-primary)]">Your Profile</h1>
+
+        <div class="grid grid-cols-1 sm:grid-cols-1 gap-6 mb-10 ">
+
+            <div class="p-5 border rounded-lg shadow-sm bg-gray-50 py-2 px-3">
+                <div class="user-detail px-6">
+                    <p><strong>Name:</strong> <span th:text="${customer.getName()}"></span></p>
+                    <p><strong>Email:</strong> <span th:text="${customer.getEmail()}"></span></p>
+                    <p><strong>Phone:</strong> <span th:text="${customer.getPhone()}"></span></p>
+                    <p><strong>Address:</strong> <span th:text="${customer.getAddress()}"></span></p>
+                    <p>
+                        <strong>Join Date:</strong>
+                        <span th:text="${#temporals.format(customer.getCreatedTime(), 'dd/MM/yyyy')}"></span>
+                    </p>
+                    <p>
+                        <strong>Total Orders:</strong>
+                        <span th:text="${orderList.size()}"></span>
+                    </p>
+                </div>
+
+            </div>
+
+        </div>
+
+        <!-- ORDER HISTORY -->
+        <h2 class="text-xl font-semibold mb-4 text-[var(--color-primary)] mt-4">Order History</h2>
+
+        <div th:if="${#lists.isEmpty(orderList)}" class="text-gray-500 text-center py-6">
+            You have no orders yet.
+        </div>
+
+        <div th:if="${!#lists.isEmpty(orderList)}" class="space-y-4">
+
+            <div th:each="order : ${orderList}"
+                 class="p-5 border rounded-lg bg-white shadow-sm">
+
+                <div class="flex justify-between items-center px-4">
+                    <div>
+                        <p class="text-lg font-semibold">
+                            Order #<span th:text="${order.getId()}"></span>
+                        </p>
+
+                        <p class="text-sm text-gray-500">
+                            Date:
+                            <span th:text="${#temporals.format(order.getOrder_date(), 'dd/MM/yyyy')}"></span>
+                        </p>
+
+                        <p class="text-sm"
+                           th:classappend="${order.getStatus().name() == 'PENDING' ? 'text-yellow-500'
+                       : (order.getStatus().name()  == 'PAID' ? 'text-green-600'
+                                      : 'text-red-500')}">
+                            Status:
+                            <span th:text="${order.getStatus().name()}"></span>
+                        </p>
+                    </div>
+
+                    <div class="text-right">
+                        <p class="font-semibold">
+                            Total:
+                            <span th:text="${order.getTotal_price()}"></span> $
+                        </p>
+
+                        <a th:href="@{'/order/detail/' + ${order.getId()}}" th:data-id="${order.getId()}"
+                           class="mt-2 inline-block px-4 py-2 bg-[var(--color-primary)] text-white rounded-lg hover:bg-blue-400">
+                            View Details
+                        </a>
+                    </div>
+                </div>
+            </div>
+        </div>
+
+    </div>
+</section>
+
+
+<div th:replace="~{common/footer :: footer}"></div>
+<script src="/js/cart-loading.js"></script>
+
+</body>
+</html>

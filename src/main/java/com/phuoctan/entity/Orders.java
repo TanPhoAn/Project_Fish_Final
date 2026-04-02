@@ -2,6 +2,7 @@ package com.phuoctan.entity;
 
 
 import jakarta.persistence.*;
+import org.hibernate.annotations.CreationTimestamp;
 
 import java.time.LocalDateTime;
 import java.util.List;
@@ -19,13 +20,22 @@ public class Orders {
 
     @OneToMany(fetch = FetchType.LAZY, mappedBy = "orders", cascade = CascadeType.ALL, orphanRemoval = true)
     private List<Order_item> order_items;
-
+    @CreationTimestamp
     private LocalDateTime order_date;
     private Long total_price;
     @Enumerated(EnumType.STRING)
     private OrderStatus status;
+    @Enumerated(EnumType.STRING)
+    private PaymentMethod paymentMethod;
 
 
+    public PaymentMethod getPaymentMethod() {
+        return paymentMethod;
+    }
+
+    public void setPaymentMethod(PaymentMethod paymentMethod) {
+        this.paymentMethod = paymentMethod;
+    }
 
     @Override
     public boolean equals(Object o) {
