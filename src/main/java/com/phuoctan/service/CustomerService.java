@@ -8,6 +8,7 @@ import org.mapstruct.factory.Mappers;
 import org.springframework.stereotype.Service;
 
 import java.util.List;
+import java.util.Optional;
 
 @Service
 //this class available as a bean -> spring instantiate(khoi tao) -> use in other classes
@@ -34,7 +35,13 @@ public class CustomerService {
     }
 
     public void updateCustomer(Customer customer) {
-        customerRepository.save(customer);
+       Customer customerExist =  customerRepository.findById(customer.getId()).orElseThrow(() -> new RuntimeException("Customer not found"));
+       customerExist.setName(customer.getName());
+       customerExist.setAddress(customer.getAddress());
+       customerExist.setPhone(customer.getPhone());
+       customerExist.setEmail(customer.getEmail());
+       customerRepository.save(customerExist);
+
     }
     public void deleteCustomer(Customer customer) {
         customerRepository.delete(customer);

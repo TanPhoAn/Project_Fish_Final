@@ -8,7 +8,7 @@ import java.util.List;
 
 public class CustomerUserDetails extends User {
 
-    private final Customer customer;
+    private Customer customer;
 
     public CustomerUserDetails(Customer customer) {
         super(
@@ -21,5 +21,8 @@ public class CustomerUserDetails extends User {
 
     public Customer getCustomer() {
         return customer;
+    }
+    public void setCustomer(Customer customer) {
+        this.customer = customer;
     }
 }

@@ -5,7 +5,8 @@
 </head>
 <header th:replace="~{common/header :: navbar}"></header>
 <div th:replace="~{common/header :: cart}"></div>
-<body class="bg-gray-100 min-h-screen flex flex-col">
+<div th:replace="~{common/user-edit :: user-profile-popup}"></div>
+<body class="bg-gray-100 min-h-screen flex flex-col" id="user-detail-hero">
 
 <!-- NAVBAR -->
 
@@ -14,28 +15,33 @@
 
         <!-- USER INFO -->
         <h1 class="text-2xl font-semibold mb-6 text-[var(--color-primary)]">Your Profile</h1>
+        <div class="user-detail-container">
+            <div class="flex flex-row justify-between gap-6 mb-10 p-5 border rounded-lg shadow-sm bg-gray-50 py-2 px-3">
 
-        <div class="grid grid-cols-1 sm:grid-cols-1 gap-6 mb-10 ">
+                    <div class="user-detail px-6">
+                        <p><strong>Name:</strong> <span th:text="${customer.getName()}"></span></p>
+                        <p><strong>Email:</strong> <span th:text="${customer.getEmail()}"></span></p>
+                        <p><strong>Phone:</strong> <span th:text="${customer.getPhone()}"></span></p>
+                        <p><strong>Address:</strong> <span th:text="${customer.getAddress()}"></span></p>
+                        <p>
+                            <strong>Join Date:</strong>
+                            <span th:text="${#temporals.format(customer.getCreatedTime(), 'dd/MM/yyyy')}"></span>
+                        </p>
+                        <p>
+                            <strong>Total Orders:</strong>
+                            <span th:text="${orderList.size()}"></span>
+                        </p>
+                    </div>
 
-            <div class="p-5 border rounded-lg shadow-sm bg-gray-50 py-2 px-3">
-                <div class="user-detail px-6">
-                    <p><strong>Name:</strong> <span th:text="${customer.getName()}"></span></p>
-                    <p><strong>Email:</strong> <span th:text="${customer.getEmail()}"></span></p>
-                    <p><strong>Phone:</strong> <span th:text="${customer.getPhone()}"></span></p>
-                    <p><strong>Address:</strong> <span th:text="${customer.getAddress()}"></span></p>
-                    <p>
-                        <strong>Join Date:</strong>
-                        <span th:text="${#temporals.format(customer.getCreatedTime(), 'dd/MM/yyyy')}"></span>
-                    </p>
-                    <p>
-                        <strong>Total Orders:</strong>
-                        <span th:text="${orderList.size()}"></span>
-                    </p>
+                <div class="edit-icon"  >
+                    <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="currentColor" class="size-6" id="user-detail-edit-button">
+                        <path d="M21.731 2.269a2.625 2.625 0 0 0-3.712 0l-1.157 1.157 3.712 3.712 1.157-1.157a2.625 2.625 0 0 0 0-3.712ZM19.513 8.199l-3.712-3.712-8.4 8.4a5.25 5.25 0 0 0-1.32 2.214l-.8 2.685a.75.75 0 0 0 .933.933l2.685-.8a5.25 5.25 0 0 0 2.214-1.32l8.4-8.4Z" />
+                        <path d="M5.25 5.25a3 3 0 0 0-3 3v10.5a3 3 0 0 0 3 3h10.5a3 3 0 0 0 3-3V13.5a.75.75 0 0 0-1.5 0v5.25a1.5 1.5 0 0 1-1.5 1.5H5.25a1.5 1.5 0 0 1-1.5-1.5V8.25a1.5 1.5 0 0 1 1.5-1.5h5.25a.75.75 0 0 0 0-1.5H5.25Z" />
+                    </svg>
                 </div>
-
             </div>
-
         </div>
+
 
         <!-- ORDER HISTORY -->
         <h2 class="text-xl font-semibold mb-4 text-[var(--color-primary)] mt-4">Order History</h2>
@@ -90,6 +96,6 @@
 
 <div th:replace="~{common/footer :: footer}"></div>
 <script src="/js/cart-loading.js"></script>
-
+<script src="/js/user-edit-button.js"></script>
 </body>
 </html>

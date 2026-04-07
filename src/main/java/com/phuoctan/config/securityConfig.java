@@ -23,6 +23,9 @@ public class securityConfig {
                         .requestMatchers("/css/**").permitAll()
                         .requestMatchers("/images/**").permitAll()
                         .requestMatchers("/home").permitAll()
+                        .requestMatchers("/js/**").permitAll()
+                        .requestMatchers("/contact","/contact/request-sending").permitAll()
+                        .requestMatchers("/products/{categorySlug}").permitAll()
                         //for testing only
 //                        .requestMatchers("/home").permitAll()
                     .anyRequest().authenticated())

@@ -91,4 +91,25 @@ public class CustomerController {
         model.addAttribute("orderList", orderList);
         return "/page/user-detail";
     }
+
+    @GetMapping("/user/profile/edit")
+    public String edit(Model model, @AuthenticationPrincipal CustomerUserDetails  customer) {
+        Customer customerDetail = customer.getCustomer();
+        model.addAttribute("customerDetail", customerDetail);
+        return "/common/user-edit :: user-profile";
+    }
+
+    @PostMapping("/user/profile/edit/saving")
+    public String saveUserInfo(@ModelAttribute("customerDetail") Customer newInfoCustomer, Model model, @AuthenticationPrincipal CustomerUserDetails  customer) {
+
+        model.addAttribute("customerDetail", newInfoCustomer);
+        customerService.updateCustomer(newInfoCustomer);
+        customer.setCustomer(newInfoCustomer);
+        return "redirect:/user/profile";
+    }
+
+    @GetMapping("/demo")
+    public String demo() {
+        return "/page/company-demo-02";
+    }
 }
