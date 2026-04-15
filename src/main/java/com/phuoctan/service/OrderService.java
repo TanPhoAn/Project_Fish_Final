@@ -13,6 +13,7 @@ import org.springframework.stereotype.Service;
 
 
 import java.util.List;
+import java.util.Optional;
 
 @Service
 public class OrderService {
@@ -80,6 +81,14 @@ public class OrderService {
     //update order
     public void updateOrder(Orders order){
         orderRepository.save(order);
+    }
+
+    public Optional<Orders> getOrder(Integer order_id){
+        return orderRepository.findById(order_id);
+    }
+
+    public void deleteOrder(Orders order){
+        orderRepository.delete(order);
     }
     //remove order
 }

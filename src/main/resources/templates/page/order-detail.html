@@ -1,0 +1,98 @@
+<!DOCTYPE html>
+<html lang="en" xmlns:th="http://www.thymeleaf.org">
+<head th:replace="common/header :: head">
+    <title>Order Detail</title>
+</head>
+<header th:replace="~{common/header :: navbar}"></header>
+<body class="bg-gray-100 flex flex-col min-h-screen">
+
+
+<div class="max-w-4xl mx-auto mt-10 bg-white p-8 rounded-xl shadow mb-10 flex flex-col flex-grow ">
+    <div class="order-info-container">
+        <!-- TITLE -->
+        <h1 class="text-2xl font-semibold mb-6">
+            Order #<span th:text="${order.getId()}"></span>
+        </h1>
+
+        <!-- ORDER INFO -->
+        <div class="grid grid-cols-2 gap-4 mb-6 text-sm">
+
+            <p><strong>Status:</strong>
+                <span class="text-blue-500"
+                      th:text="${order.getStatus()}"></span>
+            </p>
+
+            <p><strong>Payment:</strong>
+                <span th:text="${order.getPaymentMethod()}"></span>
+            </p>
+
+            <p><strong>Date:</strong>
+                <span th:text="${#temporals.format(order.getOrder_date(), 'dd-MM-yyyy HH:mm')}"></span>
+            </p>
+
+            <p><strong>Total:</strong>
+                <span class="text-emerald-600 font-semibold"
+                      th:text=" ${order.getTotal_price()} + '$'"></span>
+            </p>
+
+        </div>
+
+        <!-- ITEM LIST -->
+        <h2 class="text-center text-3xl font-bold mb-3 pt-3">Items</h2>
+
+        <div class="order-item-list divide-y">
+
+            <div th:each="item : ${orderItemList}"
+                 class="flex justify-between py-4 items-center">
+
+                <!-- LEFT -->
+                <div>
+                    <p class="font-medium"
+                       th:text="${item.product.getProductName()}"></p>
+
+                    <p class="text-sm text-gray-500">
+                        Qty:
+                        <span th:text="${item.getQuantity()}"></span>
+                    </p>
+
+                    <p class="text-xs text-gray-400">
+                        Price:
+                        <span th:text="${item.getPrice()} + '$'" ></span>
+                    </p>
+                </div>
+
+                <!-- RIGHT -->
+                <div class="font-semibold text-right">
+                    <span th:text="${item.getTotalPrice()} + '$'"></span>
+                </div>
+
+            </div>
+
+        </div>
+    </div>
+
+
+    <!-- ACTION -->
+    <div class=" flex justify-between ">
+
+        <a href="/user/profile"
+           class="px-4 py-2 border rounded-lg hover:bg-gray-100 al">
+            Back
+        </a>
+<!--        check-->
+
+        <form th:action="@{/order/details/{orderId}/remove(orderId=${order.getId()})}" method="POST">
+            <button type="submit" th:if="${order.getStatus().name() == 'PENDING'}"
+                    class="px-4 py-2 bg-red-500 text-white rounded-lg hover:bg-red-600">
+                Cancel Order
+            </button>
+        </form>
+
+
+    </div>
+
+</div>
+<div th:replace="~{common/footer :: footer}"></div>
+<script src="/js/cart-loading.js"></script>
+</body>
+</html>

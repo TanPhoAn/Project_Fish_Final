@@ -30,6 +30,11 @@ public class CustomerService {
         return customerMapper.customerTocustomerDTO(customer);
     }
 
+    public Customer getCustomer(Integer id) {
+        return customerRepository.findById(id).orElseThrow(()
+                -> new RuntimeException("Customer not found !") );
+    }
+
     public List<Customer> getcustomersList() {
         return customerRepository.findAll();
     }
@@ -47,6 +52,11 @@ public class CustomerService {
         customerRepository.delete(customer);
     }
 
+    public void setAvatar(Customer customer, String  avatar) {
+        Customer customerExist =  customerRepository.findById(customer.getId()).orElseThrow(() -> new RuntimeException("Customer not found"));
+        customerExist.setAvatar(avatar);
+        customerRepository.save(customerExist);
+    }
 
 }
 

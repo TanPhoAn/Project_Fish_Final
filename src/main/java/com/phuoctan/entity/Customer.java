@@ -34,21 +34,26 @@ public class Customer {
     @OneToMany(mappedBy = "customer")
     private List<Orders> orders;
 
-
-
-
-
+    private String avatar;
 
     @Override
     public boolean equals(Object o) {
         if (o == null || getClass() != o.getClass()) return false;
         Customer customer = (Customer) o;
-        return status == customer.status && Objects.equals(id, customer.id) && Objects.equals(name, customer.name) && Objects.equals(email, customer.email) && Objects.equals(phone, customer.phone) && Objects.equals(address, customer.address) && Objects.equals(password, customer.password) && Objects.equals(role, customer.role) && Objects.equals(createdTime, customer.createdTime) && Objects.equals(cart, customer.cart) && Objects.equals(orders, customer.orders) ;
+        return status == customer.status && Objects.equals(id, customer.id) && Objects.equals(name, customer.name) && Objects.equals(email, customer.email) && Objects.equals(phone, customer.phone) && Objects.equals(address, customer.address) && Objects.equals(password, customer.password) && Objects.equals(role, customer.role) && Objects.equals(createdTime, customer.createdTime) && Objects.equals(cart, customer.cart) && Objects.equals(orders, customer.orders) && Objects.equals(avatar, customer.avatar);
     }
 
     @Override
     public int hashCode() {
-        return Objects.hash(id, name, email, phone, address, password, role, status, createdTime, cart, orders);
+        return Objects.hash(id, name, email, phone, address, password, role, status, createdTime, cart, orders, avatar);
+    }
+
+    public String getAvatar() {
+        return avatar;
+    }
+
+    public void setAvatar(String avatar) {
+        this.avatar = avatar;
     }
 
     public Cart getCart() {

@@ -6,6 +6,7 @@ import com.phuoctan.service.CustomerService;
 import com.phuoctan.dto.registerFormDTO;
 import com.phuoctan.service.OrderService;
 import com.phuoctan.service.ProductService;
+import jakarta.servlet.http.HttpSession;
 import org.apache.tomcat.util.net.openssl.ciphers.Authentication;
 import org.mapstruct.factory.Mappers;
 import org.springframework.security.core.annotation.AuthenticationPrincipal;
@@ -15,10 +16,16 @@ import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.ModelAttribute;
 import org.springframework.web.bind.annotation.PostMapping;
+import org.springframework.web.bind.annotation.RequestParam;
+import org.springframework.web.multipart.MultipartFile;
 
+import java.nio.file.Files;
+import java.nio.file.Path;
+import java.nio.file.Paths;
 import java.util.LinkedHashMap;
 import java.util.List;
 import java.util.Map;
+import java.util.UUID;
 
 
 @Controller
@@ -84,7 +91,7 @@ public class CustomerController {
     @GetMapping("/user/profile")
     public String users(Model model, @AuthenticationPrincipal CustomerUserDetails  customer) {
 
-        Customer customerDetail = customer.getCustomer();
+        Customer customerDetail = customerService.getCustomer(customer.getCustomer().getId());
         model.addAttribute("customer", customerDetail);
         List<Orders> orderList = orderService.getOrders(customerDetail);
 
@@ -111,5 +118,36 @@ public class CustomerController {
     @GetMapping("/demo")
     public String demo() {
         return "/page/company-demo-02";
+    }
+
+    @PostMapping("/user/upload-avatar")
+    public String uploadAvatar(@RequestParam("avatar") MultipartFile file, @AuthenticationPrincipal CustomerUserDetails  customer) {
+        if(file.isEmpty()){
+            return "redirect:/page/user-detail";
+        }
+        try{
+            Customer user = customer.getCustomer();
+            //naming file to new one
+            String originalFilename = file.getOriginalFilename();
+            String extension =  originalFilename.substring(originalFilename.lastIndexOf("."));
+            String newFileName = user.getId() + "_" + System.currentTimeMillis() + extension;
+
+            //patch to save
+            String uploadDir = "src/main/resources/static/images/user-avatar/";
+            Path path = Paths.get(uploadDir + newFileName);
+
+            //save avatar file
+            Files.write(path, file.getBytes());
+
+            //update DB
+            customerService.setAvatar(user, newFileName);
+
+            customer.getCustomer().setAvatar(newFileName);
+        }catch (Exception e){
+            e.printStackTrace();
+        }
+
+        return "redirect:/user/profile";
+
     }
 }
