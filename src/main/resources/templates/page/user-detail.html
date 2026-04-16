@@ -46,7 +46,8 @@
                             <div class="relative group w-32 h-32">
 
                                 <img id="avatarPreview"
-                                     th:src="@{'/images/user-avatar/' + ${customer.avatar}}"
+                                     th:src="@{'/uploads/user-avatar/' + ${customer.avatar}}"
+                                     onerror="this.src= '/images/user-avatar/default.png' "
                                      class="w-full h-full object-cover rounded-full border-4 border-emerald-400 shadow-md cursor-pointer">
 
                                 <!-- OVERLAY -->

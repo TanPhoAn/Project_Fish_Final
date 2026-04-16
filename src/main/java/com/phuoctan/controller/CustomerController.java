@@ -18,7 +18,7 @@ import org.springframework.web.bind.annotation.ModelAttribute;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.multipart.MultipartFile;
-
+import org.springframework.web.bind.annotation.ResponseBody;
 import java.nio.file.Files;
 import java.nio.file.Path;
 import java.nio.file.Paths;
@@ -133,12 +133,16 @@ public class CustomerController {
             String newFileName = user.getId() + "_" + System.currentTimeMillis() + extension;
 
             //patch to save
-            String uploadDir = "src/main/resources/static/images/user-avatar/";
+            String uploadDir = "/Users/phanphuoctan/IdeaProjects/Project_Fish_Final/uploads/user-avatar/";
             Path path = Paths.get(uploadDir + newFileName);
 
             //save avatar file
             Files.write(path, file.getBytes());
-
+            // delete old ava
+            if (user.getAvatar() != null && !user.getAvatar().equals("default.png")) {
+                Path oldPath = Paths.get(uploadDir + user.getAvatar());
+                Files.deleteIfExists(oldPath);
+            }
             //update DB
             customerService.setAvatar(user, newFileName);
 
@@ -150,4 +154,39 @@ public class CustomerController {
         return "redirect:/user/profile";
 
     }
+
+//    @PostMapping("/user/upload-avatar")
+//    @ResponseBody
+//    public String uploadAvatarr(@RequestParam("avatar") MultipartFile file,
+//                               @AuthenticationPrincipal CustomerUserDetails customer) {
+//
+//        if (file.isEmpty()) {
+//            return "error";
+//        }
+//
+//        try {
+//            Customer user = customer.getCustomer();
+//
+//            String originalFilename = file.getOriginalFilename();
+//            String extension = originalFilename.substring(originalFilename.lastIndexOf("."));
+//            String newFileName = user.getId() + "_" + System.currentTimeMillis() + extension;
+//
+//            String uploadDir = "src/main/resources/static/images/user-avatar/";
+//            Path path = Paths.get(uploadDir + newFileName);
+//
+//            Files.write(path, file.getBytes());
+//
+//            // update DB
+//            customerService.setAvatar(user, newFileName);
+//
+//            // update session
+//            customer.getCustomer().setAvatar(newFileName);
+//
+//            return newFileName; // 👈 trả filename về cho JS
+//
+//        } catch (Exception e) {
+//            e.printStackTrace();
+//            return "error";
+//        }
+//    }
 }
