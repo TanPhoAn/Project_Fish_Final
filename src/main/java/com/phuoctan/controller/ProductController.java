@@ -10,6 +10,7 @@ import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.*;
 
 
+
 @Controller
 public class ProductController {
     private final ProductService productService;
@@ -27,25 +28,39 @@ public class ProductController {
             @PathVariable("categorySlug") String categorySlug,
             Model model,
             @RequestParam(value="page", defaultValue = "1") int page,
-            @RequestParam(value = "size", defaultValue = "8") int size
+            @RequestParam(value = "size", defaultValue = "10") int size,
+            @RequestParam(defaultValue = "") String keyword,
+            @RequestParam(required = false) Double min,
+            @RequestParam(required = false) Double max
+
+
+
     ) {
         // "fish-food" -> "FISH_FOOD"
         String enumName = categorySlug.toUpperCase().replace("-", "_");
         int zeroBasedPage = Math.max(page - 1, 0);
         ProductCategory category;
         try {
+            //get category
             category = ProductCategory.valueOf(enumName);
         } catch (IllegalArgumentException ex) {
             return "redirect:/home";
         }
-        Page<Product> productPage = productService.findByCategoryPage(category, zeroBasedPage, size);
+        Page<Product> productPage = productService.findByCategoryPage(category, zeroBasedPage, size, min, max, keyword);
         //List<Product> products = productService.findByCategory(category );
 
         model.addAttribute("category", category);
         model.addAttribute("categorySlug", categorySlug);
         model.addAttribute("productPage", productPage);
         model.addAttribute("currentPage", page);
+
+        // input user
+        model.addAttribute("keyword", keyword);
+        model.addAttribute("min", min);
+        model.addAttribute("max", max);
         return "/page/product-lists";
     }
+
+
 
 }

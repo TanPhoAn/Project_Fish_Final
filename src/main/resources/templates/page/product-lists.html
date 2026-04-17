@@ -28,51 +28,99 @@
     <div th:if="${#lists.isEmpty(productPage)}" class="text-center py-16 text-gray-500">
         No products found in this category.
     </div>
+    <div class="flex flex-row">
+        <form method="get"
+              th:action="@{/products/{slug}(slug=${categorySlug})}"
+              class="flex gap-4 mb-6">
+
+            <!-- SEARCH -->
+            <input type="text"
+                   name="keyword"
+                   placeholder="Search product..."
+                   th:value="${keyword}"
+                   class="px-4 py-2 border rounded-lg w-1/3">
+
+            <!-- MIN PRICE -->
+            <input type="number"
+                   name="min"
+                   placeholder="Min price"
+                   th:value="${min}"
+                   class="px-4 py-2 border rounded-lg w-32">
+
+            <!-- MAX PRICE -->
+            <input type="number"
+                   name="max"
+                   placeholder="Max price"
+                   th:value="${max}"
+                   class="px-4 py-2 border rounded-lg w-32">
+
+            <!-- BUTTON -->
+            <button type="submit"
+                    class="px-4 py-2 bg-[#6995B1] text-white rounded-lg">
+                Search
+            </button>
+        </form>
+        <form method="get"
+              th:action="@{/products/{slug}(slug=${categorySlug})}"
+              class=" mb-6">
+            <select name="sort" class="px-3 py-2 border rounded-lg">
+                <option value="">Arrange the price here</option>
+                <option value="price_asc">Price ↑</option>
+                <option value="price_desc">Price ↓</option>
+            </select>
+        </form>
+    </div>
+
+
 
     <div th:unless="${#lists.isEmpty(productPage)}"
-         class="grid grid-cols-4 gap-8">
 
+         >
         <!--card-->
-        <div class="bg-[#f9f7f3] rounded-2xl p-6 shadow-sm hover:shadow-md transition flex flex-col h-full"
-             th:each="prod : ${productPage}">
+        <div class="grid grid-cols-4 gap-8">
+            <div class="bg-[#f9f7f3] rounded-2xl p-6 shadow-sm hover:shadow-md transition flex flex-col h-full"
+                 th:each="prod : ${productPage}">
 
-            <img th:src="@{'/images/' + ${category.name()} + '/' + ${prod.productImage}}"
-                 class="rounded-xl mb-4 h-48 w-full object-cover"
-                 th:alt="${category.name()}"
-            >
+                <img th:src="@{'/images/' + ${category.name()} + '/' + ${prod.productImage}}"
+                     class="rounded-xl mb-4 h-48 w-full object-cover"
+                     th:alt="${category.name()}"
+                >
 
-            <h4 class="font-semibold text-lg mb-2"
-                th:text="${prod.productName}">Product name</h4>
+                <h4 class="font-semibold text-lg mb-2"
+                    th:text="${prod.productName}">Product name</h4>
 
-            <div class="flex-1">
-                <p class="text-sm text-gray-500 mb-4 line-clamp-2"
-                   th:text="${prod.productDescription}">
-                </p>
-            </div>
+                <div class="flex-1">
+                    <p class="text-sm text-gray-500 mb-4 line-clamp-2"
+                       th:text="${prod.productDescription}">
+                    </p>
+                </div>
 
-            <div class="flex items-center justify-between mt-auto">
+                <div class="flex items-center justify-between mt-auto">
                 <span class="font-bold text-[#6995B1]"
                       th:text="${prod.productPrice} + ' $'">
                 </span>
-                <form method="post" th:action="@{/cart/add}">
-                    <button type="button" th:data-id="${prod.getId()}" class="add-to-cart-btn px-4 py-2 text-sm bg-[#6995B1] text-white rounded-full hover:opacity-90">
-                        Add to cart
-                    </button>
-                </form>
+                    <form method="post" th:action="@{/cart/add}">
+                        <button type="button" th:data-id="${prod.getId()}" class="add-to-cart-btn px-4 py-2 text-sm bg-[#6995B1] text-white rounded-full hover:opacity-90">
+                            Add to cart
+                        </button>
+                    </form>
 
+                </div>
             </div>
         </div>
+
         <!--    Pagination    -->
-        <div class="mt-10 flex items-center justify-center gap-4 text-sm" th:if="${#lists.size(productPage.content) >= 8}">
+        <div class="mt-10 flex items-center justify-center gap-4 text-sm" >
 
             <!-- Previous -->
 
-
-
             <a th:if="${productPage.hasPrevious()}"
                th:href="@{/products/{slug}(slug=${categorySlug},
-                               page=${currentPage - 1},
-                               size=${productPage.size})}"
+                page=${currentPage - 1},
+                size=${productPage.size},
+                keyword=${keyword},
+                min=${min},
+                max=${max})}"
                class="px-4 py-2 rounded-full border border-gray-300 text-gray-700 hover:bg-gray-100">
                 ← Previous
             </a>
@@ -90,8 +138,11 @@
             <!-- Next -->
             <a th:if="${productPage.hasNext()}"
                th:href="@{/products/{slug}(slug=${categorySlug},
-                               page=${currentPage +1},
-                               size=${productPage.size})}"
+                page=${currentPage + 1},
+                size=${productPage.size},
+                keyword=${keyword},
+                min=${min},
+                max=${max})}"
                class="px-4 py-2 rounded-full border border-gray-300 text-gray-700 hover:bg-gray-100">
                 Next →
             </a>
@@ -101,8 +152,6 @@
             </span>
 
         </div>
-
-
     </div>
 </section>
 

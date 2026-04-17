@@ -25,9 +25,9 @@ public class ProductService {
         return productRepository.findByProductCategory(category);
     }
 
-    public Page<Product> findByCategoryPage(ProductCategory category, int page, int size) {
+    public Page<Product> findByCategoryPage(ProductCategory category, int page, int size, Double min, Double max, String keyword) {
         Pageable pageable = PageRequest.of(page, size);
-        return productRepository.findByProductCategory(category, pageable);
+        return productRepository.findByProductCategory(category, pageable, keyword, min, max);
     }
 
 }
