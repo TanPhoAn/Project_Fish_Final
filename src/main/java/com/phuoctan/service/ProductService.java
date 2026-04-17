@@ -6,6 +6,7 @@ import com.phuoctan.repository.ProductRepository;
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.PageRequest;
 import org.springframework.data.domain.Pageable;
+import org.springframework.data.domain.Sort;
 import org.springframework.stereotype.Service;
 
 import java.util.List;
@@ -25,8 +26,14 @@ public class ProductService {
         return productRepository.findByProductCategory(category);
     }
 
-    public Page<Product> findByCategoryPage(ProductCategory category, int page, int size, Double min, Double max, String keyword) {
-        Pageable pageable = PageRequest.of(page, size);
+    public Page<Product> findByCategoryPage(ProductCategory category, int page, int size, Double min, Double max, String keyword, String sort) {
+        Sort sortObj = switch (sort) {
+            case "price_asc" -> Sort.by("productPrice").ascending();
+            case "price_desc" -> Sort.by("productPrice").descending();
+            default -> Sort.unsorted();
+        };
+
+        Pageable pageable = PageRequest.of(page, size, sortObj);
         return productRepository.findByProductCategory(category, pageable, keyword, min, max);
     }
 

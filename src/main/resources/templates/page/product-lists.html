@@ -63,10 +63,14 @@
         <form method="get"
               th:action="@{/products/{slug}(slug=${categorySlug})}"
               class=" mb-6">
-            <select name="sort" class="px-3 py-2 border rounded-lg">
-                <option value="">Arrange the price here</option>
-                <option value="price_asc">Price ↑</option>
-                <option value="price_desc">Price ↓</option>
+            <input type="hidden" name="keyword" th:value="${keyword}">
+            <input type="hidden" name="min" th:value="${min}">
+            <input type="hidden" name="max" th:value="${max}">
+            <input type="hidden" name="size" th:value="${productPage.size}">
+            <select name="sort" class="px-3 py-2 border rounded-lg" onchange="this.form.submit()">
+                <option value="" th:selected="${sort == ''}">Arrange the price here</option>
+                <option value="price_asc" th:selected="${sort == 'price_asc'}">Price ↑</option>
+                <option value="price_desc"  th:selected="${sort == 'price_desc'}">Price ↓</option>
             </select>
         </form>
     </div>
@@ -120,7 +124,8 @@
                 size=${productPage.size},
                 keyword=${keyword},
                 min=${min},
-                max=${max})}"
+                max=${max},
+                sort=${sort})}"
                class="px-4 py-2 rounded-full border border-gray-300 text-gray-700 hover:bg-gray-100">
                 ← Previous
             </a>
@@ -142,7 +147,8 @@
                 size=${productPage.size},
                 keyword=${keyword},
                 min=${min},
-                max=${max})}"
+                max=${max},
+                sort=${sort})}"
                class="px-4 py-2 rounded-full border border-gray-300 text-gray-700 hover:bg-gray-100">
                 Next →
             </a>

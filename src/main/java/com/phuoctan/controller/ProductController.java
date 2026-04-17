@@ -31,8 +31,8 @@ public class ProductController {
             @RequestParam(value = "size", defaultValue = "10") int size,
             @RequestParam(defaultValue = "") String keyword,
             @RequestParam(required = false) Double min,
-            @RequestParam(required = false) Double max
-
+            @RequestParam(required = false) Double max,
+            @RequestParam(defaultValue = "") String sort
 
 
     ) {
@@ -46,7 +46,7 @@ public class ProductController {
         } catch (IllegalArgumentException ex) {
             return "redirect:/home";
         }
-        Page<Product> productPage = productService.findByCategoryPage(category, zeroBasedPage, size, min, max, keyword);
+        Page<Product> productPage = productService.findByCategoryPage(category, zeroBasedPage, size, min, max, keyword, sort);
         //List<Product> products = productService.findByCategory(category );
 
         model.addAttribute("category", category);
@@ -58,6 +58,7 @@ public class ProductController {
         model.addAttribute("keyword", keyword);
         model.addAttribute("min", min);
         model.addAttribute("max", max);
+        model.addAttribute("sort", sort);
         return "/page/product-lists";
     }
 
