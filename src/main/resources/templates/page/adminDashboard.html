@@ -1,0 +1,57 @@
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org">
+<head th:replace="~{common/header :: head}">
+    <title>Admin Dashboard</title>
+</head>
+
+<body class="bg-gray-100 flex">
+
+<!-- SIDEBAR -->
+<aside class="w-64 bg-slate-900 text-white min-h-screen p-6">
+
+    <h2 class="text-2xl font-bold mb-8">AquaFish Admin</h2>
+
+    <nav class="space-y-4">
+        <a href="#" class="block hover:text-emerald-400">Dashboard</a>
+        <a href="#users" class="block hover:text-emerald-400">Users</a>
+        <a href="#orders" class="block hover:text-emerald-400">Orders</a>
+        <a href="#products" class="block hover:text-emerald-400">Products</a>
+        <a href="/logout" class="block text-red-400">Logout</a>
+    </nav>
+
+</aside>
+
+
+<!-- MAIN -->
+<main class="flex-1 p-8">
+
+    <h1 class="text-3xl font-bold mb-8">Dashboard</h1>
+
+    <!-- Cards -->
+    <div class="grid grid-cols-4 gap-6 mb-10">
+
+        <div class="bg-white rounded-xl p-6 shadow">
+            <p>Total Users</p>
+            <h2 class="text-3xl font-bold text-blue-600"
+                th:text="${totalCus}"></h2>
+        </div>
+
+        <div class="bg-white rounded-xl p-6 shadow">
+            <p>Total Orders</p>
+            <h2 class="text-3xl font-bold text-emerald-600"
+                th:text="${totalOrders}"></h2>
+        </div>
+
+        <div class="bg-white rounded-xl p-6 shadow">
+            <p>Pending Orders</p>
+            <h2 class="text-3xl font-bold text-yellow-500"
+                th:text="${pendingOrders}"></h2>
+        </div>
+
+        <div class="bg-white rounded-xl p-6 shadow">
+            <p>Products Count</p>
+            <h2 class="text-3xl font-bold text-pink-500"
+                th:text="${totalProducts}"></h2>
+        </div>
+
+    </div>

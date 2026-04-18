@@ -26,6 +26,8 @@ public class securityConfig {
                         .requestMatchers("/js/**").permitAll()
                         .requestMatchers("/contact","/contact/request-sending").permitAll()
                         .requestMatchers("/products/{categorySlug}").permitAll()
+                        .requestMatchers("/admin/**").hasRole("ADMIN")
+
                         //for testing only
 //                        .requestMatchers("/home").permitAll()
                     .anyRequest().authenticated())
@@ -33,7 +35,16 @@ public class securityConfig {
                 .formLogin(form -> form
                         .loginPage("/login")
                         .loginProcessingUrl("/login")
-                        .defaultSuccessUrl("/home", true)
+                        .successHandler((request, response, authentication) -> {
+                            boolean isAdmin =  authentication.getAuthorities().stream().anyMatch(a -> a.getAuthority().equals("ROLE_ADMIN"));
+                            if(isAdmin){
+                                response.sendRedirect("/admin/dashboard");
+                            }else{
+                                response.sendRedirect("/home");
+                            }
+                        }
+                        )
+
                         .failureUrl("/login?error")
                         .permitAll()
                 )
