@@ -34,4 +34,11 @@ public interface ProductRepository extends JpaRepository<Product, Integer> {
     
 """)
     Page<Product> findByProductCategory(ProductCategory category, Pageable pageable, String keyword, Double min, Double max);
+
+    @Query("""
+    SELECT p FROM Product p
+    WHERE (:keyword = '' OR LOWER(p.productName) LIKE LOWER(CONCAT('%', :keyword, '%')))
+    
+""")
+    Page<Product> searchProducts(Pageable pageable, String keyword);
 }

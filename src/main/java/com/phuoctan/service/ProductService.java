@@ -37,4 +37,17 @@ public class ProductService {
         return productRepository.findByProductCategory(category, pageable, keyword, min, max);
     }
 
+    public Page<Product> searchProducts(int page, int size, String keyword, String sort) {
+        Sort sortObj = switch (sort) {
+            case "price_asc" -> Sort.by("productPrice").ascending();
+            case "price_desc" -> Sort.by("productPrice").descending();
+            case "name_asc" -> Sort.by("productName").ascending();
+            case "name_desc" -> Sort.by("productName").descending();
+            default -> Sort.by("id").descending();
+        };
+
+        Pageable pageable = PageRequest.of(page, size, sortObj);
+        return productRepository.searchProducts(pageable, keyword == null ? "" : keyword.trim());
+    }
+
 }

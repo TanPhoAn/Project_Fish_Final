@@ -1,5 +1,5 @@
 <!DOCTYPE html>
-<html xmlns:th="http://www.thymeleaf.org">
+<html xmlns:th="http://www.thymeleaf.org" lang="en">
 <head th:replace="~{common/header :: head}">
     <title>Admin Dashboard</title>
 </head>
@@ -16,7 +16,12 @@
         <a href="#users" class="block hover:text-emerald-400">Users</a>
         <a href="#orders" class="block hover:text-emerald-400">Orders</a>
         <a href="#products" class="block hover:text-emerald-400">Products</a>
-        <a href="/logout" class="block text-red-400">Logout</a>
+
+        <form th:if="${currentUser != null}" th:action="@{/logout}" method="post" >
+            <button class= "cursor-pointer  hover:text-red-500"  type="submit">
+                Log Out
+            </button>
+        </form>
     </nav>
 
 </aside>
@@ -39,7 +44,7 @@
         <div class="bg-white rounded-xl p-6 shadow">
             <p>Total Orders</p>
             <h2 class="text-3xl font-bold text-emerald-600"
-                th:text="${totalOrders}"></h2>
+                th:text="${totalOrder}"></h2>
         </div>
 
         <div class="bg-white rounded-xl p-6 shadow">
@@ -55,3 +60,351 @@
         </div>
 
     </div>
+
+    <!-- USERS SECTION -->
+    <section id="users" class="mt-10">
+
+        <!-- Header -->
+        <div class="flex flex-col md:flex-row md:items-center md:justify-between gap-4 mb-6">
+            <div>
+                <h2 class="text-2xl md:text-3xl font-bold text-gray-800">Users Management</h2>
+            </div>
+
+            <!-- Search -->
+            <div class="w-full md:w-80">
+                <input type="text"
+                       placeholder="Search user..."
+                       class="w-full px-4 py-2 rounded-xl border border-gray-300 focus:ring-2 focus:ring-blue-400 outline-none">
+            </div>
+        </div>
+
+        <!-- Desktop Table -->
+        <div class="hidden lg:block overflow-x-auto bg-white rounded-2xl shadow border border-gray-100">
+            <table class="w-full text-sm text-left">
+                <thead class="bg-gray-100 text-gray-700 uppercase text-xs tracking-wider">
+                <tr>
+                    <th class="px-6 py-4">ID</th>
+                    <th class="px-6 py-4">Name</th>
+                    <th class="px-6 py-4">Email</th>
+                    <th class="px-6 py-4">Phone</th>
+                    <th class="px-6 py-4">Role</th>
+                    <th class="px-6 py-4 text-center">Action</th>
+                </tr>
+                </thead>
+
+                <tbody>
+                <tr th:each="u : ${userList}"
+                    class="border-t hover:bg-gray-50 transition">
+
+                    <td class="px-6 py-4 font-medium text-gray-700"
+                        th:text="${u.id}"></td>
+
+                    <td class="px-6 py-4 font-semibold"
+                        th:text="${u.name}"></td>
+
+                    <td class="px-6 py-4 text-gray-600"
+                        th:text="${u.email}"></td>
+
+                    <td class="px-6 py-4"
+                        th:text="${u.phone}"></td>
+
+                    <td class="px-6 py-4">
+                    <span class="px-3 py-1 rounded-full text-xs font-semibold"
+                          th:classappend="${u.role == 'ADMIN'} ? 'bg-red-100 text-red-600' : 'bg-green-100 text-green-600'"
+                          th:text="${u.role}">
+                    </span>
+                    </td>
+
+                    <td class="px-6 py-4 text-center">
+                        <div class="flex justify-center gap-3">
+
+                            <a th:href="@{/admin/user/{id}(id=${u.id})}"
+                               class="px-3 py-1 rounded-lg bg-blue-100 text-blue-600 hover:bg-blue-200">
+                                View
+                            </a>
+
+                            <a th:href="@{/admin/user/edit/{id}(id=${u.id})}"
+                               class="px-3 py-1 rounded-lg bg-green-100 text-green-600 hover:bg-green-200">
+                                Edit
+                            </a>
+
+                            <a th:href="@{/admin/user/delete/{id}(id=${u.id})}"
+                               onclick="return confirm('Delete this user?')"
+                               class="px-3 py-1 rounded-lg bg-red-100 text-red-600 hover:bg-red-200">
+                                Delete
+                            </a>
+
+                        </div>
+                    </td>
+
+                </tr>
+                </tbody>
+            </table>
+        </div>
+
+        <!-- Mobile Cards -->
+        <div class="grid grid-cols-1 md:grid-cols-2 gap-4 lg:hidden">
+
+            <div th:each="u : ${userList}"
+                 class="bg-white rounded-2xl shadow p-5 border border-gray-100">
+
+                <div class="flex justify-between items-start mb-3">
+                    <div>
+                        <h3 class="font-bold text-lg" th:text="${u.name}"></h3>
+                        <p class="text-sm text-gray-500">#<span th:text="${u.id}"></span></p>
+                    </div>
+
+                    <span class="px-3 py-1 rounded-full text-xs font-semibold"
+                          th:classappend="${u.role == 'ADMIN'} ? 'bg-red-100 text-red-600' : 'bg-green-100 text-green-600'"
+                          th:text="${u.role}">
+                </span>
+                </div>
+
+                <div class="space-y-1 text-sm text-gray-600 mb-4">
+                    <p th:text="${u.email}"></p>
+                    <p th:text="${u.phone}"></p>
+                </div>
+
+                <div class="flex gap-2 flex-wrap">
+
+                    <a th:href="@{/admin/user/{id}(id=${u.id})}"
+                       class="px-3 py-2 rounded-lg bg-blue-100 text-blue-600 text-sm">
+                        View
+                    </a>
+
+                    <a th:href="@{/admin/user/edit/{id}(id=${u.id})}"
+                       class="px-3 py-2 rounded-lg bg-green-100 text-green-600 text-sm">
+                        Edit
+                    </a>
+
+                    <a th:href="@{/admin/user/delete/{id}(id=${u.id})}"
+                       onclick="return confirm('Delete this user?')"
+                       class="px-3 py-2 rounded-lg bg-red-100 text-red-600 text-sm">
+                        Delete
+                    </a>
+
+                </div>
+            </div>
+
+        </div>
+
+    </section>
+
+    <!--  order section  -->
+    <section id="orders" class="mt-12">
+
+        <!-- Header -->
+        <div class="flex flex-col sm:flex-row sm:items-center sm:justify-between gap-3 mb-6">
+            <div>
+                <h2 class="text-2xl font-bold text-gray-800">Orders</h2>
+                <p class="text-sm text-gray-500">Manage all customer orders</p>
+            </div>
+
+            <div class="flex gap-2">
+                <input type="text"
+                       placeholder="Search order..."
+                       class="px-4 py-2 border rounded-xl text-sm w-full sm:w-64 focus:ring-2 focus:ring-blue-400 outline-none">
+
+                <select class="px-2 py-2 border rounded-xl text-sm focus:ring-2 focus:ring-blue-400 outline-none ">
+                    <option >All Status</option>
+                    <option>PENDING</option>
+                    <option>PAID</option>
+                    <option>CANCELLED</option>
+                </select>
+            </div>
+        </div>
+
+        <!-- Table Card -->
+        <div class="bg-white rounded-2xl shadow overflow-hidden">
+
+            <!-- Desktop Table -->
+            <div class="hidden lg:block overflow-x-auto">
+                <table class="w-full text-sm text-left">
+                    <thead class="bg-gray-100 text-gray-700 uppercase text-xs tracking-wider">
+                    <tr>
+                        <th class="px-6 py-4">ID</th>
+                        <th class="px-6 py-4">User</th>
+                        <th class="px-6 py-4">Date</th>
+                        <th class="px-6 py-4">Total</th>
+                        <th class="px-6 py-4">Status</th>
+                        <th class="px-6 py-4 text-center">Action</th>
+                    </tr>
+                    </thead>
+
+                    <tbody>
+                    <tr th:each="o : ${ordersList}"
+                        class="border-t hover:bg-gray-50 transition">
+
+                        <td class="px-6 py-4 font-semibold text-gray-800"
+                            th:text="${o.id}"></td>
+
+                        <td class="px-6 py-4"
+                            th:text="${o.customer.name}"></td>
+
+                        <td class="px-6 py-4 text-gray-500"
+                            th:text="${#temporals.format(o.order_date,'dd/MM/yyyy')}"></td>
+
+                        <td class="px-6 py-4 font-semibold text-blue-600"
+                            th:text="${o.total_price + ' $'}"></td>
+
+                        <td class="px-6 py-4">
+                        <span th:text="${o.status}"
+                              class="px-3 py-1 rounded-full text-xs font-semibold"
+                              th:classappend="
+                              ${o.status.name() == 'PENDING'} ? ' bg-yellow-100 text-yellow-700' :
+                              (${o.status.name() == 'PAID'} ? ' bg-green-100 text-green-700' :
+                              ' bg-red-100 text-red-700')">
+                        </span>
+                        </td>
+
+                        <td class="px-6 py-4 text-center">
+                            <a th:href="@{/admin/order/{id}(id=${o.id})}"
+                               class="inline-block px-4 py-2 text-sm bg-blue-500 text-white rounded-xl hover:bg-blue-600 transition">
+                                Detail
+                            </a>
+                        </td>
+
+                    </tr>
+                    </tbody>
+                </table>
+            </div>
+
+            <!-- Mobile Cards -->
+            <div class="lg:hidden divide-y">
+                <div th:each="o : ${ordersList}" class="p-5 space-y-3">
+
+                    <div class="flex justify-between items-center">
+                        <h3 class="font-bold text-gray-800">
+                            Order #<span th:text="${o.id}"></span>
+                        </h3>
+
+                        <span th:text="${o.status}"
+                              class="px-3 py-1 rounded-full text-xs font-semibold"
+                              th:classappend="
+                          ${o.status.name() == 'PENDING'} ? ' bg-yellow-100 text-yellow-700' :
+                          (${o.status.name() == 'PAID'} ? ' bg-green-100 text-green-700' :
+                          ' bg-red-100 text-red-700')">
+                    </span>
+                    </div>
+
+                    <p class="text-sm text-gray-600">
+                        Customer:
+                        <span class="font-medium"
+                              th:text="${o.customer.getName() }"></span>
+                    </p>
+
+                    <p class="text-sm text-gray-500">
+                        Date:
+                        <span th:text="${#temporals.format(o.order_date,'dd/MM/yyyy')}"></span>
+                    </p>
+
+                    <p class="text-sm font-semibold text-blue-600">
+                        Total:
+                        <span th:text="${o.getTotal_price() + ' $'}"></span>
+                    </p>
+
+                    <a th:href="@{/admin/order/{id}(id=${o.id})}"
+                       class="inline-block mt-2 px-4 py-2 bg-blue-500 text-white rounded-xl text-sm hover:bg-blue-600 transition">
+                        View Detail
+                    </a>
+
+                </div>
+            </div>
+
+        </div>
+
+    </section>
+    <!-- PRODUCT SECTION   -->
+    <section id="products" class="mt-12">
+
+        <!-- Header -->
+        <div class="flex flex-col md:flex-row md:items-center md:justify-between gap-4 mb-6">
+
+            <div>
+                <h2 class="text-2xl font-bold text-gray-800">Products</h2>
+                <p class="text-sm text-gray-500">Manage all products in store</p>
+            </div>
+
+            <div class="flex gap-3 flex-wrap">
+
+                <input type="text"
+                       id="product-search"
+                       placeholder="Search product..."
+                       class="px-4 py-2 border rounded-xl text-sm w-64 focus:ring-2 focus:ring-blue-400 outline-none">
+
+                <a href="/admin/product/add"
+                   class="inline-flex items-center gap-2 bg-emerald-500 text-white px-5 py-2 rounded-xl hover:bg-emerald-600 transition shadow">
+                    + Add Product
+                </a>
+
+            </div>
+
+        </div>
+
+        <!-- Product Grid -->
+        <div id="product-grid" class="grid grid-cols-1 sm:grid-cols-2 xl:grid-cols-3 gap-6">
+
+            <div th:each="p : ${productList}"
+                 class="bg-white rounded-2xl shadow hover:shadow-lg transition overflow-hidden border border-gray-100">
+
+                <!-- Product Image -->
+                <img th:src="@{'/images/' + ${p.productCategory.name()} + '/' + ${p.productImage}}"
+                     class="w-full h-52 object-cover"
+                     alt="Product">
+
+                <!-- Body -->
+                <div class="p-5">
+
+                    <!-- Category -->
+                    <span class="text-xs font-semibold px-3 py-1 rounded-full bg-blue-100 text-blue-600"
+                          th:text="${p.productCategory}">
+                </span>
+
+                    <!-- Name -->
+                    <h3 class="text-lg font-bold text-gray-800 mt-3"
+                        th:text="${p.productName}">
+                    </h3>
+
+                    <!-- Description -->
+                    <p class="text-sm text-gray-500 mt-2 line-clamp-2"
+                       th:text="${p.productDescription}">
+                    </p>
+
+                    <!-- Price -->
+                    <div class="mt-4 text-xl font-bold text-emerald-600"
+                         th:text="${p.productPrice + ' $'}">
+                    </div>
+
+                    <!-- Stock -->
+                    <p class="text-sm mt-1 text-gray-500">
+                        Stock:
+                        <span th:text="${p.quantity}"></span>
+                    </p>
+
+                    <!-- Actions -->
+                    <div class="mt-5 flex gap-2 flex-wrap">
+
+                        <a th:href="@{/admin/product/edit/{id}(id=${p.id})}"
+                           class="flex-1 text-center px-4 py-2 rounded-xl bg-blue-500 text-white hover:bg-blue-600 transition text-sm">
+                            Edit
+                        </a>
+
+                        <a th:href="@{/admin/product/delete/{id}(id=${p.id})}"
+                           onclick="return confirm('Delete this product?')"
+                           class="flex-1 text-center px-4 py-2 rounded-xl bg-red-500 text-white hover:bg-red-600 transition text-sm">
+                            Delete
+                        </a>
+
+                    </div>
+
+                </div>
+
+            </div>
+
+        </div>
+
+    </section>
+</main>
+<script src="/js/admin.js"></script>
+</body>
+</html>
