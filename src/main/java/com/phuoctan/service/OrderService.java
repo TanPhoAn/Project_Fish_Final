@@ -9,6 +9,10 @@ import com.phuoctan.repository.OrderItemRepository;
 import com.phuoctan.repository.OrderRepository;
 
 import org.mapstruct.factory.Mappers;
+import org.springframework.data.domain.Page;
+import org.springframework.data.domain.PageRequest;
+import org.springframework.data.domain.Pageable;
+import org.springframework.data.domain.Sort;
 import org.springframework.stereotype.Service;
 
 
@@ -90,5 +94,8 @@ public class OrderService {
     public void deleteOrder(Orders order){
         orderRepository.delete(order);
     }
-    //remove order
-}
+
+    public List<Orders> searchOrders( String keyword, OrderStatus orderStatus){
+       return  orderRepository.searchOrders(keyword == null ? "" : keyword.trim(), orderStatus);
+    }
+ }

@@ -3,8 +3,8 @@ package com.phuoctan.entity;
 
 public enum OrderStatus {
     PENDING("Pending"),
-    PAID("Paid"),
-    CANCELLED("Cancelled");
+    TRANSIT("Transit"),
+    COMPLETED("Completed");
 
     private final String label;
 
