@@ -50,4 +50,8 @@ public class ProductService {
         return productRepository.searchProducts(pageable, keyword == null ? "" : keyword.trim());
     }
 
+
+    public void createProduct(Product product) {
+        productRepository.save(product);
+    }
 }

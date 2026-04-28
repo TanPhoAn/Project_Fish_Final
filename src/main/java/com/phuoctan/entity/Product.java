@@ -15,7 +15,7 @@ public class Product {
     private Integer id;
     private String productName;
     private String productDescription;
-    private long productPrice;
+    private double productPrice;
     @Enumerated(EnumType.STRING)
     private ProductCategory productCategory;
     private String productImage;
@@ -38,7 +38,15 @@ public class Product {
 
     public Product(int productId) {
     }
+    public Product(String productName, String productDescription, Double productPrice, ProductCategory productCategory,  String productImage, int quantity) {
+        this.productName = productName;
+        this.productDescription = productDescription;
+        this.productPrice = productPrice;
+        this.productCategory = productCategory;
+        this.productImage = productImage;
+        this.quantity = quantity;
 
+    }
     public int getQuantity() {
         return quantity;
     }
@@ -74,11 +82,11 @@ public class Product {
         this.productDescription = productDescription;
     }
 
-    public long getProductPrice() {
+    public double getProductPrice() {
         return productPrice;
     }
 
-    public void setProductPrice(long productPrice) {
+    public void setProductPrice(Double productPrice) {
         this.productPrice = productPrice;
     }
 
@@ -118,7 +126,7 @@ public class Product {
         return Objects.hash(id, productName, productDescription, productPrice, productCategory, productImage, productStatus);
     }
 
-    public Product(String productName, String productDescription, long productPrice,  ProductCategory productCategory, boolean productStatus) {
+    public Product(String productName, String productDescription, Double productPrice,  ProductCategory productCategory, boolean productStatus) {
         this.productPrice = productPrice;
         this.productName = productName;
         this.productDescription = productDescription;

@@ -39,7 +39,7 @@ public class CartController {
 
         List<Cart_item> itemList = cartService.getCartItems(userDetails.getCustomer());
         model.addAttribute("itemList", itemList);
-        Long totalPrice = itemList.stream().mapToLong(Cart_item::getTotalPrice).sum();
+        Double totalPrice = itemList.stream().mapToDouble(Cart_item::getTotalPrice).sum();
         model.addAttribute("totalPrice", totalPrice);
         return "common/cart-popup :: cartContent";
     }

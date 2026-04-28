@@ -115,10 +115,6 @@ public class CustomerController {
         return "redirect:/user/profile";
     }
 
-    @GetMapping("/demo")
-    public String demo() {
-        return "/page/company-demo-02";
-    }
 
     @PostMapping("/user/upload-avatar")
     public String uploadAvatar(@RequestParam("avatar") MultipartFile file, @AuthenticationPrincipal CustomerUserDetails  customer) {

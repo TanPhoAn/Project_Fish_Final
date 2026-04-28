@@ -85,7 +85,7 @@
             <div class="bg-[#f9f7f3] rounded-2xl p-6 shadow-sm hover:shadow-md transition flex flex-col h-full"
                  th:each="prod : ${productPage}">
 
-                <img th:src="@{'/images/' + ${category.name()} + '/' + ${prod.productImage}}"
+                <img th:src="@{'/uploads/' + ${category.name()} + '/' + ${prod.productImage}}"
                      class="rounded-xl mb-4 h-48 w-full object-cover"
                      th:alt="${category.name()}"
                 >

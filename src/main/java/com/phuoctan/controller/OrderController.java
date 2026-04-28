@@ -34,7 +34,7 @@ public class OrderController {
     public String payment(@AuthenticationPrincipal CustomerUserDetails customer, Model model) {
         Customer user =  customer.getCustomer();
         List<Cart_item> orderItem = cartService.getCartItems(user);
-        Long totalPrice = orderItem.stream().mapToLong(Cart_item::getTotalPrice).sum();
+        Double totalPrice = orderItem.stream().mapToDouble(Cart_item::getTotalPrice).sum();
 
         //session.setAttribute("cartItemList", orderItem);
         model.addAttribute("user", user);

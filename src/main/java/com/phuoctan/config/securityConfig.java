@@ -27,7 +27,7 @@ public class securityConfig {
                         .requestMatchers("/contact","/contact/request-sending").permitAll()
                         .requestMatchers("/products/{categorySlug}").permitAll()
                         .requestMatchers("/admin/**").hasRole("ADMIN")
-
+                        .requestMatchers("/uploads/**").permitAll()
                         //for testing only
 //                        .requestMatchers("/home").permitAll()
                     .anyRequest().authenticated())

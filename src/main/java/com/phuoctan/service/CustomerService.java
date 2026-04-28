@@ -40,13 +40,16 @@ public class CustomerService {
     }
 
     public void updateCustomer(Customer customer) {
-       Customer customerExist =  customerRepository.findById(customer.getId()).orElseThrow(() -> new RuntimeException("Customer not found"));
-       customerExist.setName(customer.getName());
-       customerExist.setAddress(customer.getAddress());
-       customerExist.setPhone(customer.getPhone());
-       customerExist.setEmail(customer.getEmail());
-       customerRepository.save(customerExist);
+           Customer customerExist =  customerRepository.findById(customer.getId()).orElseThrow(() -> new RuntimeException("Customer not found"));
+           customerExist.setName(customer.getName());
+           customerExist.setAddress(customer.getAddress());
+           customerExist.setPhone(customer.getPhone());
+           customerExist.setEmail(customer.getEmail());
+           customerRepository.save(customerExist);
 
+        }
+    public void updateNewCustomer(Customer customer) {
+        customerRepository.save(customer);
     }
     public void deleteCustomer(Customer customer) {
         customerRepository.delete(customer);

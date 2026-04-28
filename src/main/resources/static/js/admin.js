@@ -1,10 +1,30 @@
+const searchInput = document.getElementById('product-search');
+const productGrid = document.getElementById('product-grid');
+const orderInput = document.getElementById("order-search");
+const orderTable = document.getElementById("order-table");
+const orderStatus = document.getElementById("order-status");
+const closeBtn = document.getElementById("close-user-btn");
+const userModal = document.getElementById("user-edit-modal");
+const editUserBtn = document.querySelectorAll(".user-edit-btn");
+const userIdInput = document.getElementById("user-id");
+const userNameInput = document.getElementById("user-name");
+const userEmailInput = document.getElementById("user-email");
+const userPhoneInput = document.getElementById("user-phone");
+const userRoleInput = document.getElementById("user-role");
+const userAddressInput = document.getElementById("user-address");
+const cancelUserBtn = document.getElementById("cancel-user-modal");
+const deleteUserBtnVer = document.getElementById("cancel-delete-user");
+const deleteUserModal = document.getElementById("delete-user-modal");
+const deleteUserBtn = document.querySelectorAll(".user-delete-btn");
+const deleteUserForm = document.getElementById("delete-user-form");
+const cancelCreateProd = document.getElementById("cancel-create-product");
+const closeCreateProd = document.getElementById("close-create-product-btn");
+const prodCreateModal = document.getElementById("product-create-modal");
+const closeProdBtn = [closeCreateProd, cancelCreateProd];
+const addProdBtn = document.getElementById("add-product-btn");
 
-    (() => {
-    const searchInput = document.getElementById('product-search');
-    const productGrid = document.getElementById('product-grid');
-    const orderInput = document.getElementById("order-search");
-    const orderTable = document.getElementById("order-table");
-    const orderStatus = document.getElementById("order-status");
+(() => {
+
     if (!searchInput || !productGrid || !orderInput || !orderTable) {
     return;
 }
@@ -198,3 +218,85 @@
             orderStatus.addEventListener('change', searchOrders);
         }
 })();
+
+// close button for edit user
+editUserBtn.forEach((btn)=>{
+    btn.addEventListener("click", async ()=>{
+        const userId = btn.dataset.id;
+        if (!userId) {
+            return;
+        }
+        userModal.classList.remove("hidden");
+        try{
+            const response = await fetch(`/admin/api/users/${userId}`, {
+                headers: {
+                    "X-Requested-With": "XMLHttpRequest"
+                }
+            });
+            const user = await response.json();
+            userNameInput.value = user.name;
+            userEmailInput.value =  user.email;
+            userPhoneInput.value = user.phone;
+            userAddressInput.value = user.address;
+
+            document.getElementById("user-edit-form").action = `/admin/user/${userId}/update`;
+
+        }
+        catch(error){
+
+        }
+
+    })
+});
+// close user
+if(closeBtn){
+    closeBtn.addEventListener("click", ()=>{
+        userModal.classList.add("hidden");
+    });
+}
+if(userModal){
+    userModal.addEventListener("click", (e)=>{
+        if(e.target === userModal || e.target.id === "user-edit-container"){
+            userModal.classList.add("hidden");
+        }
+    })
+}
+if(cancelUserBtn){
+    cancelUserBtn.addEventListener("click", ()=>{
+        userModal.classList.add("hidden");
+    });
+}
+if(deleteUserBtnVer){
+    deleteUserBtnVer.addEventListener("click", ()=>{
+        deleteUserModal.classList.add("hidden");
+    });
+}
+
+closeProdBtn.forEach(btn => {
+    if(btn){
+        btn.addEventListener("click", ()=>{
+            prodCreateModal?.classList.add("hidden");
+        })
+    }
+})
+
+if(prodCreateModal){
+    prodCreateModal.addEventListener("click", (e)=>{
+        const modalContent = prodCreateModal.querySelector('.bg-white');
+        if (modalContent && !modalContent.contains(e.target)) {
+            prodCreateModal.classList.add("hidden");
+        }
+    })
+}
+
+addProdBtn.addEventListener("click", ()=>{
+    prodCreateModal.classList.remove("hidden");
+})
+
+deleteUserBtn.forEach(btn =>{
+    btn.addEventListener("click", ()=>{
+        const user_id = btn.dataset.id;
+        deleteUserForm.action = `/admin/user/${user_id}/delete`;
+        deleteUserModal.classList.remove("hidden");
+    })
+})

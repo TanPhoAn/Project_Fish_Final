@@ -23,8 +23,8 @@ public class Cart_item {
     private Product product;
 
     private Integer quantity;
-    private Long price;
-    private Long totalPrice;
+    private Double price;
+    private Double totalPrice;
 
     @Override
     public boolean equals(Object o) {
@@ -38,11 +38,11 @@ public class Cart_item {
         return Objects.hash(id, cart, product, quantity, price, totalPrice);
     }
 
-    public Long getTotalPrice() {
+    public Double getTotalPrice() {
         return totalPrice;
     }
 
-    public void setTotalPrice(Long totalPrice) {
+    public void setTotalPrice(Double totalPrice) {
         this.totalPrice = totalPrice;
     }
 
@@ -77,11 +77,11 @@ public class Cart_item {
     public void setQuantity(Integer quantity) {
         this.quantity = quantity;
     }
-    public Long getPrice() {
+    public Double getPrice() {
         return price;
     }
 
-    public void setPrice(Long price) {
+    public void setPrice(Double price) {
         this.price = price;
     }
 

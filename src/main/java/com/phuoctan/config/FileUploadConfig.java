@@ -8,8 +8,9 @@ import org.springframework.web.servlet.config.annotation.WebMvcConfigurer;
 public class FileUploadConfig implements WebMvcConfigurer {
     @Override
     public void addResourceHandlers(ResourceHandlerRegistry registry) {
-        registry.addResourceHandler("/uploads/user-avatar/**")
-                .addResourceLocations("file:/Users/phanphuoctan/IdeaProjects/Project_Fish_Final/uploads/user-avatar/");
+        registry.addResourceHandler("/uploads/**")
+                .addResourceLocations("file:/Users/phanphuoctan/IdeaProjects/Project_Fish_Final/uploads/");
+
     }
 }
 

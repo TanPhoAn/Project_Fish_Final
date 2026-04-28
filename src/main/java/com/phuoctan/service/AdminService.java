@@ -40,4 +40,8 @@ public class AdminService {
     public List<Product> totalProducts(){
         return productRepository.findAll();
     }
+
+
+
+
 }

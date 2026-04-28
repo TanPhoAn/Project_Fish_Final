@@ -33,12 +33,12 @@ public class AdminProductApiController {
                         product.getId(),
                         product.getProductName(),
                         product.getProductDescription(),
-                        product.getProductPrice(),
+                         product.getProductPrice(),
                         product.getQuantity(),
                         product.getProductStatus(),
                         product.getProductCategory().name(),
                         product.getProductCategory().getLabel(),
-                        "/images/" + product.getProductCategory().name() + "/" + product.getProductImage()
+                        "/uploads/" + product.getProductCategory().name() + "/" + product.getProductImage()
                 ))
                 .toList();
 
@@ -55,7 +55,7 @@ public class AdminProductApiController {
             Integer id,
             String productName,
             String productDescription,
-            long productPrice,
+            Double productPrice,
             int quantity,
             boolean productStatus,
             String categoryKey,

@@ -43,7 +43,7 @@
                  flex flex-col h-full"
 
                      th:each="prod : ${product.getValue()}">
-                    <img th:src="@{'/images/' + ${product.getKey().values()} + '/' + ${prod.productImage}}"
+                    <img th:src="@{'/uploads/' + ${product.getKey().values()} + '/' + ${prod.productImage}}"
                          class="rounded-xl mb-4 h-48 w-full object-cover" alt="">
 
                     <h4 class="font-semibold text-lg mb-2"
@@ -71,7 +71,7 @@
             transition flex flex-col h-full"
 
                      th:each="prod : ${product.getValue().subList(0, T(java.lang.Math).min(4, product.getValue().size()))}">
-                    <img th:src="@{'/images/' + ${product.getKey()} + '/' + ${prod.productImage}}"
+                    <img th:src="@{'/uploads/' + ${product.getKey()} + '/' + ${prod.productImage}}"
                          class="rounded-xl mb-4 h-48 w-full object-cover" alt="product image">
 
                     <h4 class="font-semibold text-lg mb-2"
