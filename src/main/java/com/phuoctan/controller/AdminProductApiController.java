@@ -3,10 +3,7 @@ package com.phuoctan.controller;
 import com.phuoctan.entity.Product;
 import com.phuoctan.service.ProductService;
 import org.springframework.data.domain.Page;
-import org.springframework.web.bind.annotation.GetMapping;
-import org.springframework.web.bind.annotation.RequestMapping;
-import org.springframework.web.bind.annotation.RequestParam;
-import org.springframework.web.bind.annotation.RestController;
+import org.springframework.web.bind.annotation.*;
 
 import java.util.List;
 
@@ -72,4 +69,26 @@ public class AdminProductApiController {
             int totalPages
     ) {
     }
+
+    @GetMapping("{id}/get")
+    public ProductDetailResponse getProductById(@PathVariable Integer id) {
+        Product product = productService.getProductById(id).orElseThrow(()-> new RuntimeException("Product not found"));
+        return new ProductDetailResponse(
+                product.getId(),
+                product.getProductName(),
+                product.getProductDescription(),
+                product.getProductPrice(),
+                product.getQuantity()
+        );
+    }
+
+    public record ProductDetailResponse(
+            Integer id,
+            String productName,
+            String productDescription,
+            Double productPrice,
+            int quantity
+    ) {}
+
+
 }

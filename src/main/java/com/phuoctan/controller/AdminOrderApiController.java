@@ -4,6 +4,10 @@ package com.phuoctan.controller;
 import com.phuoctan.entity.OrderStatus;
 import com.phuoctan.entity.Orders;
 import com.phuoctan.service.OrderService;
+import org.springframework.http.ResponseEntity;
+import org.springframework.web.bind.annotation.PathVariable;
+import org.springframework.web.bind.annotation.PostMapping;
+import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestParam;
@@ -62,4 +66,34 @@ public record OrderSearchResponse(
         List<OrderSummary> items
 
 ){}
+
+@PostMapping("/{id}/status")
+public ResponseEntity<OrderStatusResponse> updateOrderStatus(
+        @PathVariable Integer id,
+        @RequestBody UpdateOrderStatusRequest request
+) {
+    Orders order = orderService.getOrder(id)
+            .orElseThrow(() -> new RuntimeException("Order not found"));
+
+    OrderStatus newStatus = OrderStatus.valueOf(request.status());
+    order.setStatus(newStatus);
+    orderService.updateOrder(order);
+
+    return ResponseEntity.ok(new OrderStatusResponse(order.getId(), order.getStatus().name()));
+}
+
+public record UpdateOrderStatusRequest(
+        String status
+) {}
+
+public record OrderStatusResponse(
+        Integer id,
+        String status
+) {}
+
+    @GetMapping("/pending")
+    public Integer pendingOrder()
+    {
+        return orderService.getPendingOrder().size();
+    }
 }

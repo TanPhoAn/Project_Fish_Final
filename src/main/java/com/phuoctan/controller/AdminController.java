@@ -131,4 +131,9 @@ public class AdminController {
 
         return newFileName;
     }
+    @PostMapping("/admin/product/{id}/remove")
+    public String deleteProductById(@PathVariable Integer id) {
+        productService.deleteProductById(id);
+        return "redirect:/admin/dashboard";
+    }
 }

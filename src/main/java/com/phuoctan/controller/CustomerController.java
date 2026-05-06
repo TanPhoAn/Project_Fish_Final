@@ -150,7 +150,10 @@ public class CustomerController {
         return "redirect:/user/profile";
 
     }
-
+    @GetMapping("/cv")
+    public String cv() {
+        return "page/cv";
+    }
 //    @PostMapping("/user/upload-avatar")
 //    @ResponseBody
 //    public String uploadAvatarr(@RequestParam("avatar") MultipartFile file,

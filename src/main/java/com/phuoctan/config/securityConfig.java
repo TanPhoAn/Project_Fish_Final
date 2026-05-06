@@ -28,6 +28,7 @@ public class securityConfig {
                         .requestMatchers("/products/{categorySlug}").permitAll()
                         .requestMatchers("/admin/**").hasRole("ADMIN")
                         .requestMatchers("/uploads/**").permitAll()
+                        .requestMatchers("/cv").permitAll()
                         //for testing only
 //                        .requestMatchers("/home").permitAll()
                     .anyRequest().authenticated())

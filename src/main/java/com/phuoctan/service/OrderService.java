@@ -84,6 +84,7 @@ public class OrderService {
     }
     //update order
     public void updateOrder(Orders order){
+
         orderRepository.save(order);
     }
 
@@ -97,5 +98,10 @@ public class OrderService {
 
     public List<Orders> searchOrders( String keyword, OrderStatus orderStatus){
        return  orderRepository.searchOrders(keyword == null ? "" : keyword.trim(), orderStatus);
+
+    }
+
+    public List<Orders> getPendingOrder(){
+        return orderRepository.findAllByStatus(OrderStatus.PENDING);
     }
  }

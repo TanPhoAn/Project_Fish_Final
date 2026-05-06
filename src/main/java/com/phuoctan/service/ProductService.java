@@ -10,6 +10,7 @@ import org.springframework.data.domain.Sort;
 import org.springframework.stereotype.Service;
 
 import java.util.List;
+import java.util.Optional;
 
 @Service
 public class ProductService {
@@ -53,5 +54,16 @@ public class ProductService {
 
     public void createProduct(Product product) {
         productRepository.save(product);
+    }
+
+    public Optional<Product> getProductById(int productId) {
+        return productRepository.findById(productId);
+    }
+
+    public void updateProduct(Product product) {
+        productRepository.save(product);
+    }
+    public  void deleteProductById(int productId) {
+        productRepository.deleteById(productId);
     }
 }
