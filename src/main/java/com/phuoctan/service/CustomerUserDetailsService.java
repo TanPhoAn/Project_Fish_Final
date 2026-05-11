@@ -1,11 +1,11 @@
 package com.phuoctan.service;
 
-import com.phuoctan.CustomerMapper;
+
 import com.phuoctan.entity.Customer;
 import com.phuoctan.entity.CustomerUserDetails;
 import com.phuoctan.repository.CustomerRepository;
-import org.mapstruct.factory.Mappers;
-import org.springframework.security.core.userdetails.User;
+
+
 import org.springframework.security.core.userdetails.UserDetails;
 import org.springframework.security.core.userdetails.UsernameNotFoundException;
 import org.springframework.stereotype.Service;
@@ -16,7 +16,7 @@ import org.springframework.security.core.userdetails.UserDetailsService;
 public class CustomerUserDetailsService implements UserDetailsService {
 
     private final CustomerRepository customerRepository;
-    private final CustomerMapper customerMapper = Mappers.getMapper(CustomerMapper.class);
+
 
     public CustomerUserDetailsService(CustomerRepository customerRepository) {
         this.customerRepository = customerRepository;

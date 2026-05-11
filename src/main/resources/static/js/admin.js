@@ -167,7 +167,7 @@ const pendingValue = document.getElementById("pending-order-value");
 
         try {
             const response = await fetch(`/admin/api/orders/${orderId}/status`, {
-                method: 'POST',
+                method: 'PATCH',
                 headers: {
                     'Content-Type': 'application/json',
                     'X-Requested-With': 'XMLHttpRequest',
@@ -345,7 +345,7 @@ editUserBtn.forEach((btn)=>{
         }
         userModal.classList.remove("hidden");
         try{
-            const response = await fetch(`/admin/api/users/${userId}`, {
+            const response = await fetch(`/admin/api/customers/${userId}`, {
                 headers: {
                     "X-Requested-With": "XMLHttpRequest"
                 }
@@ -437,7 +437,7 @@ productGrid.addEventListener("click", async (e) => {
         productEditModal.classList.remove("hidden");
 
         try {
-            const response = await fetch(`/admin/api/products/${productId}/get`, {
+            const response = await fetch(`/admin/api/products/${productId}`, {
                 headers: {
                     "X-Requested-With": "XMLHttpRequest"
                 }

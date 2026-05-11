@@ -19,9 +19,9 @@ public class AdminProductApiController {
         @GetMapping
         public ProductSearchResponse searchProducts(
                         @RequestParam(defaultValue = "0") int page,
+                        @RequestParam(defaultValue = "10") int size,
                         @RequestParam(defaultValue = "") String keyword,
                         @RequestParam(defaultValue = "") String sort) {
-                int size = productService.findAll().size();
                 Page<Product> productPage = productService.searchProducts(page, size, keyword, sort);
 
                 List<ProductSummary> items = productPage.getContent().stream()
@@ -66,7 +66,7 @@ public class AdminProductApiController {
                         int totalPages) {
         }
 
-        @GetMapping("{id}/get")
+        @GetMapping("/{id}")
         public ProductDetailResponse getProductById(@PathVariable Integer id) {
                 Product product = productService.getProductById(id)
                                 .orElseThrow(() -> new RuntimeException("Product not found"));

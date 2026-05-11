@@ -6,8 +6,7 @@ import com.phuoctan.service.CustomerService;
 import com.phuoctan.dto.registerFormDTO;
 import com.phuoctan.service.OrderService;
 import com.phuoctan.service.ProductService;
-import jakarta.servlet.http.HttpSession;
-import org.apache.tomcat.util.net.openssl.ciphers.Authentication;
+
 import org.mapstruct.factory.Mappers;
 import org.springframework.security.core.annotation.AuthenticationPrincipal;
 import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
@@ -18,14 +17,14 @@ import org.springframework.web.bind.annotation.ModelAttribute;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.multipart.MultipartFile;
-import org.springframework.web.bind.annotation.ResponseBody;
+
 import java.nio.file.Files;
 import java.nio.file.Path;
 import java.nio.file.Paths;
 import java.util.LinkedHashMap;
 import java.util.List;
 import java.util.Map;
-import java.util.UUID;
+
 
 
 @Controller

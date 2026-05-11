@@ -3,8 +3,7 @@ package com.phuoctan.repository;
 import com.phuoctan.entity.Customer;
 import com.phuoctan.entity.OrderStatus;
 import com.phuoctan.entity.Orders;
-import org.springframework.data.domain.Page;
-import org.springframework.data.domain.Pageable;
+
 import org.springframework.data.jpa.repository.JpaRepository;
 import org.springframework.data.jpa.repository.Query;
 

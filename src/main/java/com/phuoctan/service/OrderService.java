@@ -3,16 +3,13 @@ package com.phuoctan.service;
 
 import com.phuoctan.OrderMapper;
 import com.phuoctan.entity.*;
-import com.phuoctan.repository.CartItemRepository;
+
 import com.phuoctan.repository.CartRepository;
 import com.phuoctan.repository.OrderItemRepository;
 import com.phuoctan.repository.OrderRepository;
 
 import org.mapstruct.factory.Mappers;
-import org.springframework.data.domain.Page;
-import org.springframework.data.domain.PageRequest;
-import org.springframework.data.domain.Pageable;
-import org.springframework.data.domain.Sort;
+
 import org.springframework.stereotype.Service;
 
 
@@ -26,15 +23,15 @@ public class OrderService {
     private final OrderItemRepository orderItemRepository;
     private final OrderMapper orderMapper = Mappers.getMapper(OrderMapper.class);
     private final CartRepository cartRepository;
-    private final CartItemRepository cartItemRepository;
 
-    public OrderService(OrderRepository orderRepository,  CartService cartService, OrderItemRepository orderItemRepository, CartRepository cartRepository, CartItemRepository cartItemRepository) {
+
+    public OrderService(OrderRepository orderRepository,  CartService cartService, OrderItemRepository orderItemRepository, CartRepository cartRepository) {
         this.orderRepository = orderRepository;
         this.cartService = cartService;
         this.orderItemRepository = orderItemRepository;
         this.cartRepository = cartRepository;
 
-        this.cartItemRepository = cartItemRepository;
+
     }
 
     //create order_item

@@ -1,8 +1,6 @@
 package com.phuoctan.entity;
 
-import jakarta.persistence.EnumType;
-import jakarta.persistence.Enumerated;
-import jakarta.persistence.EnumeratedValue;
+
 
 public enum ProductCategory {
     FISH("Fish"),

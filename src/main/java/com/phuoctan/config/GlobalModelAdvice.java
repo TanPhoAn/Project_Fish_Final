@@ -3,7 +3,7 @@ package com.phuoctan.config;
 
 import com.phuoctan.entity.Customer;
 import com.phuoctan.entity.CustomerUserDetails;
-import com.phuoctan.service.CustomerService;
+
 import org.springframework.security.core.Authentication;
 import org.springframework.web.bind.annotation.ControllerAdvice;
 import org.springframework.web.bind.annotation.ModelAttribute;

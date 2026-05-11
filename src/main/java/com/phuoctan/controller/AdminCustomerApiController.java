@@ -1,13 +1,11 @@
 package com.phuoctan.controller;
 
 import com.phuoctan.dto.CustomerDTO;
-import com.phuoctan.entity.Customer;
 import com.phuoctan.service.CustomerService;
 import org.springframework.web.bind.annotation.*;
 
 @RestController
-@RequestMapping("/admin/api/")
-
+@RequestMapping("/admin/api/customers")
 public class AdminCustomerApiController {
     private final CustomerService customerService;
 
@@ -15,8 +13,8 @@ public class AdminCustomerApiController {
         this.customerService = customerService;
     }
 
-    @GetMapping("/users/{id}")
-    public CustomerDTO getCustomers(@PathVariable Integer id) {
+    @GetMapping("/{id}")
+    public CustomerDTO getCustomer(@PathVariable Integer id) {
         return customerService.getCustomerById(id);
     }
     // @PostMapping("/users/{id}/save-changes")

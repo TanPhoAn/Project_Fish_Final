@@ -1,7 +1,7 @@
 package com.phuoctan.entity;
 
 import jakarta.persistence.*;
-import org.hibernate.annotations.Type;
+
 
 
 import java.util.List;

@@ -1,6 +1,6 @@
 package com.phuoctan.entity;
 
-import com.phuoctan.entity.Customer;
+
 import org.springframework.security.core.userdetails.User;
 import org.springframework.security.core.authority.SimpleGrantedAuthority;
 
