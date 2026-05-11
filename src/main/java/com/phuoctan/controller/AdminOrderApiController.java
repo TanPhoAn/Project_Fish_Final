@@ -1,6 +1,5 @@
 package com.phuoctan.controller;
 
-
 import com.phuoctan.entity.OrderStatus;
 import com.phuoctan.entity.Orders;
 import com.phuoctan.service.OrderService;
@@ -21,79 +20,77 @@ import java.util.List;
 public class AdminOrderApiController {
     private final OrderService orderService;
 
-
     public AdminOrderApiController(OrderService orderService) {
         this.orderService = orderService;
 
     }
-@GetMapping
+
+    @GetMapping
     public OrderSearchResponse searchOrders(
             @RequestParam(defaultValue = "") String keyword,
-            @RequestParam(defaultValue = "") String status
-){
-        //check if status is invalid
-    OrderStatus orderStatus = null;
-    if(status != null && !status.isBlank()){
-        try {
-            orderStatus = OrderStatus.valueOf(status);
-        }catch(IllegalArgumentException e){
-            orderStatus = null;
+            @RequestParam(defaultValue = "") String status) {
+        // check if status is invalid
+        OrderStatus orderStatus = null;
+        if (status != null && !status.isBlank()) {
+            try {
+                orderStatus = OrderStatus.valueOf(status);
+            } catch (IllegalArgumentException e) {
+                orderStatus = null;
+            }
         }
+
+        List<Orders> ordersList = orderService.searchOrders(keyword, orderStatus);
+        List<OrderSummary> items = ordersList.stream().map(order -> new OrderSummary(
+                order.getId(),
+                order.getCustomer().getName(),
+                order.getOrder_date().format(DateTimeFormatter.ofPattern("dd/MM/yyyy")),
+                order.getTotal_price(),
+                order.getStatus().name())).toList();
+
+        return new OrderSearchResponse(items);
     }
 
-    List<Orders> ordersList = orderService.searchOrders(keyword, orderStatus);
-    List<OrderSummary> items = ordersList.stream().map(order -> new OrderSummary(
-            order.getId(),
-            order.getCustomer().getName(),
-            order.getOrder_date().format(DateTimeFormatter.ofPattern("dd/MM/yyyy")),
-            order.getTotal_price(),
-            order.getStatus().name()
-    )).toList();
+    public record OrderSummary(
+            Integer id,
+            String customerName,
+            String orderDate,
+            long totalPrice,
+            String status
 
-    return new OrderSearchResponse(items);
-}
-public record OrderSummary(
-        Integer id,
-        String customerName,
-        String orderDate,
-        long totalPrice,
-        String status
+    ) {
+    }
 
-){}
+    public record OrderSearchResponse(
+            List<OrderSummary> items
 
+    ) {
+    }
 
-public record OrderSearchResponse(
-        List<OrderSummary> items
+    @PostMapping("/{id}/status")
+    public ResponseEntity<OrderStatusResponse> updateOrderStatus(
+            @PathVariable Integer id,
+            @RequestBody UpdateOrderStatusRequest request) {
+        Orders order = orderService.getOrder(id)
+                .orElseThrow(() -> new RuntimeException("Order not found"));
 
-){}
+        OrderStatus newStatus = OrderStatus.valueOf(request.status());
+        order.setStatus(newStatus);
+        orderService.updateOrder(order);
 
-@PostMapping("/{id}/status")
-public ResponseEntity<OrderStatusResponse> updateOrderStatus(
-        @PathVariable Integer id,
-        @RequestBody UpdateOrderStatusRequest request
-) {
-    Orders order = orderService.getOrder(id)
-            .orElseThrow(() -> new RuntimeException("Order not found"));
+        return ResponseEntity.ok(new OrderStatusResponse(order.getId(), order.getStatus().name()));
+    }
 
-    OrderStatus newStatus = OrderStatus.valueOf(request.status());
-    order.setStatus(newStatus);
-    orderService.updateOrder(order);
+    public record UpdateOrderStatusRequest(
+            String status) {
+    }
 
-    return ResponseEntity.ok(new OrderStatusResponse(order.getId(), order.getStatus().name()));
-}
-
-public record UpdateOrderStatusRequest(
-        String status
-) {}
-
-public record OrderStatusResponse(
-        Integer id,
-        String status
-) {}
+    public record OrderStatusResponse(
+            Integer id,
+            String status) {
+    }
 
     @GetMapping("/pending")
-    public Integer pendingOrder()
-    {
+    public Integer pendingOrder() {
         return orderService.getPendingOrder().size();
     }
 }

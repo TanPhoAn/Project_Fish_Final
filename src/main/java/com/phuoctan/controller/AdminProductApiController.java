@@ -10,85 +10,80 @@ import java.util.List;
 @RestController
 @RequestMapping("/admin/api/products")
 public class AdminProductApiController {
-    private final ProductService productService;
+        private final ProductService productService;
 
-    public AdminProductApiController(ProductService productService) {
-        this.productService = productService;
-    }
+        public AdminProductApiController(ProductService productService) {
+                this.productService = productService;
+        }
 
-    @GetMapping
-    public ProductSearchResponse searchProducts(
-            @RequestParam(defaultValue = "0") int page,
-            @RequestParam(defaultValue = "") String keyword,
-            @RequestParam(defaultValue = "") String sort
-    ) {
-        int size = productService.findAll().size();
-        Page<Product> productPage = productService.searchProducts(page, size, keyword,  sort);
+        @GetMapping
+        public ProductSearchResponse searchProducts(
+                        @RequestParam(defaultValue = "0") int page,
+                        @RequestParam(defaultValue = "") String keyword,
+                        @RequestParam(defaultValue = "") String sort) {
+                int size = productService.findAll().size();
+                Page<Product> productPage = productService.searchProducts(page, size, keyword, sort);
 
-        List<ProductSummary> items = productPage.getContent().stream()
-                .map(product -> new ProductSummary(
-                        product.getId(),
-                        product.getProductName(),
-                        product.getProductDescription(),
-                         product.getProductPrice(),
-                        product.getQuantity(),
-                        product.getProductStatus(),
-                        product.getProductCategory().name(),
-                        product.getProductCategory().getLabel(),
-                        "/uploads/" + product.getProductCategory().name() + "/" + product.getProductImage()
-                ))
-                .toList();
+                List<ProductSummary> items = productPage.getContent().stream()
+                                .map(product -> new ProductSummary(
+                                                product.getId(),
+                                                product.getProductName(),
+                                                product.getProductDescription(),
+                                                product.getProductPrice(),
+                                                product.getQuantity(),
+                                                product.getProductStatus(),
+                                                product.getProductCategory().name(),
+                                                product.getProductCategory().getLabel(),
+                                                "/uploads/" + product.getProductCategory().name() + "/"
+                                                                + product.getProductImage()))
+                                .toList();
 
-        return new ProductSearchResponse(
-                items,
-                productPage.getNumber(),
-                productPage.getSize(),
-                productPage.getTotalElements(),
-                productPage.getTotalPages()
-        );
-    }
+                return new ProductSearchResponse(
+                                items,
+                                productPage.getNumber(),
+                                productPage.getSize(),
+                                productPage.getTotalElements(),
+                                productPage.getTotalPages());
+        }
 
-    public record ProductSummary(
-            Integer id,
-            String productName,
-            String productDescription,
-            Double productPrice,
-            int quantity,
-            boolean productStatus,
-            String categoryKey,
-            String categoryLabel,
-            String imageUrl
-    ) {
-    }
+        public record ProductSummary(
+                        Integer id,
+                        String productName,
+                        String productDescription,
+                        Double productPrice,
+                        int quantity,
+                        boolean productStatus,
+                        String categoryKey,
+                        String categoryLabel,
+                        String imageUrl) {
+        }
 
-    public record ProductSearchResponse(
-            List<ProductSummary> items,
-            int page,
-            int size,
-            long totalItems,
-            int totalPages
-    ) {
-    }
+        public record ProductSearchResponse(
+                        List<ProductSummary> items,
+                        int page,
+                        int size,
+                        long totalItems,
+                        int totalPages) {
+        }
 
-    @GetMapping("{id}/get")
-    public ProductDetailResponse getProductById(@PathVariable Integer id) {
-        Product product = productService.getProductById(id).orElseThrow(()-> new RuntimeException("Product not found"));
-        return new ProductDetailResponse(
-                product.getId(),
-                product.getProductName(),
-                product.getProductDescription(),
-                product.getProductPrice(),
-                product.getQuantity()
-        );
-    }
+        @GetMapping("{id}/get")
+        public ProductDetailResponse getProductById(@PathVariable Integer id) {
+                Product product = productService.getProductById(id)
+                                .orElseThrow(() -> new RuntimeException("Product not found"));
+                return new ProductDetailResponse(
+                                product.getId(),
+                                product.getProductName(),
+                                product.getProductDescription(),
+                                product.getProductPrice(),
+                                product.getQuantity());
+        }
 
-    public record ProductDetailResponse(
-            Integer id,
-            String productName,
-            String productDescription,
-            Double productPrice,
-            int quantity
-    ) {}
-
+        public record ProductDetailResponse(
+                        Integer id,
+                        String productName,
+                        String productDescription,
+                        Double productPrice,
+                        int quantity) {
+        }
 
 }
