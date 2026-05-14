@@ -19,22 +19,25 @@ xmlns:th="http://www.thymeleaf.org">
 
 
 <!-- ================= HEADER ================= -->
-<header class="bg-white shadow-sm" th:fragment="navbar">
-    <div class="max-w-7xl mx-auto flex items-center justify-between px-6 py-4">
-        <a href="/home"><h1 class="text-3xl font-semibold text-[var(--color-primary)]">Aquarina</h1></a>
+<header class="bg-white shadow-sm sticky top-0 z-40" th:fragment="navbar">
+    <div class="max-w-7xl mx-auto flex items-center justify-between px-4 md:px-6 py-4">
+        <a href="/home"><h1 class="text-2xl md:text-3xl font-semibold text-[var(--color-primary)]">Aquarina</h1></a>
 
-        <nav class="space-x-10 text-sm font-medium text-gray-600">
+        <!-- Desktop Nav -->
+        <nav class="hidden md:flex space-x-10 text-sm font-medium text-gray-600">
             <a href="/home" class="hover:text-[#6995B1]">Home</a>
             <a href="/products/fish" class="hover:text-[#6995B1]">Fish</a>
             <a href="/contact" class="hover:text-[#6995B1]">Contact</a>
         </nav>
 
-        <div class=" flex items-center space-x-3 text-sm">
+        <div class="flex items-center space-x-2 md:space-x-3 text-xs md:text-sm">
             <a th:if="${currentUser == null}" th:href="@{/login}" class="hover:text-[var(--color-primary)]">Log In</a>
-            <a  th:if="${currentUser != null}"
-                  >Aloha
-                <a th:href="@{/user/profile}" class="text-cyan-400" th:text="${currentUser.name}"></a>
-            </a>
+            
+            <div th:if="${currentUser != null}" class="hidden sm:flex items-center space-x-1">
+                <span>Aloha</span>
+                <a th:href="@{/user/profile}" class="text-cyan-400 font-semibold" th:text="${currentUser.name}"></a>
+            </div>
+
             <form th:if="${currentUser != null}" th:action="@{/logout}" method="post" >
                 <button class= "cursor-pointer hover:text-[var(--color-primary)]" type="submit">
                     Log Out
@@ -42,16 +45,72 @@ xmlns:th="http://www.thymeleaf.org">
             </form>
             <a th:if="${currentUser == null}" th:href="@{/register}" class="hover:text-[var(--color-primary)]">Sign Up</a>
 
-            <button th:if="${currentUser != null}"  id="cart-icon" class="px-5 py-2.5 bg-[var(--color-primary)] text-white rounded-full hover:opacity-90">
+            <button th:if="${currentUser != null}"  id="cart-icon" class="px-3 md:px-5 py-2 md:py-2.5 bg-[var(--color-primary)] text-white rounded-full hover:opacity-90">
                 Cart
             </button>
 
-
-
+            <!-- Mobile Toggle -->
+            <button id="mobile-menu-toggle" class="md:hidden p-2 text-gray-600 hover:text-[var(--color-primary)] transition-transform duration-300">
+                <svg id="hamburger-icon" class="w-6 h-6 transition-transform duration-300" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                    <path id="menu-path" stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M4 6h16M4 12h16m-7 6h7"></path>
+                </svg>
+            </button>
         </div>
     </div>
 
+    <!-- Mobile Menu with Animation -->
+    <div id="mobile-menu" class="md:hidden overflow-hidden max-h-0 opacity-0 transition-all duration-300 ease-in-out bg-white border-t border-gray-100 shadow-xl">
+        <nav class="flex flex-col px-6 py-6 space-y-4 text-base font-medium text-gray-600">
+            <a href="/home" class="hover:text-[#6995B1] py-2 border-b border-gray-50 transition-colors">Home</a>
+            <a href="/products/fish" class="hover:text-[#6995B1] py-2 border-b border-gray-50 transition-colors">Fish</a>
+            <a href="/contact" class="hover:text-[#6995B1] py-2 border-b border-gray-50 transition-colors">Contact</a>
+            <div th:if="${currentUser != null}" class="sm:hidden py-2 border-b border-gray-50">
+                <span>Aloha </span>
+                <a th:href="@{/user/profile}" class="text-cyan-400 font-semibold" th:text="${currentUser.name}"></a>
+            </div>
+        </nav>
+    </div>
+
+    <!-- Inline script to ensure menu works even if external JS fails to load -->
+    <script>
+        (function() {
+            function initMobileMenu() {
+                const menuToggle = document.getElementById("mobile-menu-toggle");
+                const mobileMenu = document.getElementById("mobile-menu");
+                const hamburgerIcon = document.getElementById("hamburger-icon");
+                const menuPath = document.getElementById("menu-path");
+                
+                if (menuToggle && mobileMenu) {
+                    let isOpen = false;
+                    
+                    menuToggle.onclick = function() {
+                        isOpen = !isOpen;
+                        
+                        if (isOpen) {
+                            // Mở menu
+                            mobileMenu.style.maxHeight = mobileMenu.scrollHeight + "px";
+                            mobileMenu.style.opacity = "1";
+                            hamburgerIcon.style.transform = "rotate(90deg)";
+                            menuPath.setAttribute("d", "M6 18L18 6M6 6l12 12"); // Biến thành dấu X
+                        } else {
+                            // Đóng menu
+                            mobileMenu.style.maxHeight = "0";
+                            mobileMenu.style.opacity = "0";
+                            hamburgerIcon.style.transform = "rotate(0deg)";
+                            menuPath.setAttribute("d", "M4 6h16M4 12h16m-7 6h7"); // Biến lại thành hamburger
+                        }
+                    };
+                }
+            }
+            if (document.readyState === "loading") {
+                document.addEventListener("DOMContentLoaded", initMobileMenu);
+            } else {
+                initMobileMenu();
+            }
+        })();
+    </script>
 </header>
+
                             <!-- cart -->
 <div th:fragment="cart" id="cart-modal"
      class="hidden fixed inset-0 bg-black/40 flex items-center justify-center z-50">

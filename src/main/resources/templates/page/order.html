@@ -8,15 +8,15 @@
 
 <div th:replace="common/header :: navbar"></div>
 <section class="flex-grow">
-    <div class="max-w-3xl mx-auto bg-white shadow-md p-8 mt-14 rounded-xl">
+    <div class="max-w-3xl mx-auto bg-white shadow-md p-6 md:p-8 mt-6 md:mt-14 rounded-xl">
 
-        <h1 class="text-2xl font-semibold mb-6">Order Summary</h1>
+        <h1 class="text-xl md:text-2xl font-semibold mb-6">Order Summary</h1>
 
         <!-- USER INFO -->
         <div class="mb-6">
             <h2 class="text-lg font-medium mb-2">Customer Information</h2>
 
-            <div class="space-y-1">
+            <div class="space-y-1 text-sm md:text-base">
                 <p><strong>Name:</strong> <span th:text="${user.getName()}"></span></p>
                 <p><strong>Phone:</strong> <span th:text="${user.getPhone()}"></span></p>
                 <p><strong>Address:</strong> <span th:text="${user.getAddress()}"></span></p>
@@ -25,50 +25,50 @@
 
         <!-- ITEM LIST -->
         <div class="mb-6">
-            <h2 class="text-lg font-medium mb-2 text-center">Your Items</h2>
+            <h2 class="text-lg font-medium mb-4 text-center">Your Items</h2>
 
-            <div class="divide-y">
-                <div th:each="item : ${orderItem}" class="cart-list-item flex justify-between py-3">
-                    <div>
-                        <p class="font-medium" th:text="${item.product.getProductName()}"></p>
-                        <p class="text-sm text-gray-500"
+            <div class="divide-y border-t border-b">
+                <div th:each="item : ${orderItem}" class="cart-list-item flex justify-between py-4">
+                    <div class="pr-4">
+                        <p class="font-medium text-sm md:text-base" th:text="${item.product.getProductName()}"></p>
+                        <p class="text-xs md:text-sm text-gray-500"
                            th:text="'Qty: ' + ${item.getQuantity()}"></p>
                     </div>
 
-                    <div class="font-semibold"
-                         th:text="${item.product.getProductPrice()}"></div>
+                    <div class="font-semibold text-sm md:text-base whitespace-nowrap"
+                         th:text="${item.product.getProductPrice()} + ' $'"></div>
                 </div>
             </div>
 
             <!-- TOTAL PRICE -->
-            <div class="flex justify-between mt-4 text-lg font-semibold" >
+            <div class="flex justify-between mt-6 text-lg font-bold" >
                 <span>Total:</span>
-                <span th:text="${totalPrice}"></span>
+                <span th:text="${totalPrice} + ' $'"></span>
             </div>
             <div class="empty-item-alert">
-                <p id="empty-item-alert-msg" class=" hidden text-red-500">Your cart is empty, please return home to get more stuff</p>
+                <p id="empty-item-alert-msg" class=" hidden text-red-500 mt-4">Your cart is empty, please return home to get more stuff</p>
             </div>
         </div>
 
         <!-- PAYMENT METHOD -->
         <div class="mb-8">
-            <h2 class="flex flex-col text-lg font-medium mb-3">Payment Method</h2>
+            <h2 class="flex flex-col text-lg font-medium mb-4">Payment Method</h2>
 
-            <div class="flex gap-4">
+            <div class="flex flex-col sm:flex-row gap-4">
 
                 <button id="codBtn"
-                        class="payment-option px-4 py-2 border rounded-lg">
+                        class="payment-option flex-1 px-4 py-3 border rounded-lg text-sm md:text-base transition-all hover:bg-gray-50">
                     Cash on Delivery (COD)
                 </button>
 
                 <button id="bankBtn"
-                        class="payment-option px-4 py-2 border rounded-lg">
+                        class="payment-option flex-1 px-4 py-3 border rounded-lg text-sm md:text-base transition-all hover:bg-gray-50">
                     Bank Transfer
                 </button>
 
             </div>
-            <div class=" hidden py-1" id="paymentMethod-warningText">
-                <p class="text-red-500 ">You need to choose payment method</p>
+            <div class=" hidden py-2" id="paymentMethod-warningText">
+                <p class="text-red-500 text-sm">You need to choose a payment method</p>
             </div>
 
         </div>
@@ -79,7 +79,7 @@
             <input type="hidden" name="paymentMethod" id="submitPaymentMethod">
 
             <button type="submit" id="order-submit-button"
-                    class=" px-6 py-3 bg-[var(--color-primary)] text-white rounded-lg hover:bg-blue-400">
+                    class="w-full md:w-auto px-8 py-3 bg-[var(--color-primary)] text-white rounded-lg hover:opacity-90 transition-all font-semibold shadow-md">
                 Order Now
             </button>
         </form>

@@ -502,3 +502,22 @@ deleteUserBtn.forEach(btn =>{
         deleteUserModal.classList.remove("hidden");
     })
 })
+
+// Admin Sidebar Toggle
+const adminSidebar = document.getElementById("admin-sidebar");
+const adminSidebarToggle = document.getElementById("admin-sidebar-toggle");
+const adminSidebarOverlay = document.getElementById("admin-sidebar-overlay");
+
+if (adminSidebar && adminSidebarToggle) {
+    adminSidebarToggle.addEventListener("click", () => {
+        adminSidebar.classList.toggle("-translate-x-full");
+        adminSidebarOverlay?.classList.toggle("hidden");
+    });
+}
+
+if (adminSidebarOverlay) {
+    adminSidebarOverlay.addEventListener("click", () => {
+        adminSidebar.classList.add("-translate-x-full");
+        adminSidebarOverlay.classList.add("hidden");
+    });
+}
